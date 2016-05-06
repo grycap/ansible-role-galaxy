@@ -30,11 +30,11 @@ The variables that can be passed to this role and a brief description about them
 Example Playbook
 ----------------
 
-This an example of how to install the Galaxy portal version 15.10 in the path /opt/galaxy:
+This an example of how to install the Galaxy portal version 15.07 in the path /opt/galaxy:
 
     - hosts: servers
       roles:
-         - { role: indigo-dc.galaxy, GALAXY_VERSION: 15.10,  galaxy_install_path: /opt/galaxy}
+         - { role: indigo-dc.galaxy, GALAXY_VERSION: release_15.07,  galaxy_install_path: /opt/galaxy}
 
 License
 -------
