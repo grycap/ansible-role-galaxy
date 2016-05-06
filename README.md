@@ -25,7 +25,8 @@ The variables that can be passed to this role and a brief description about them
 	# Password to assing to the user (galaxy+00)
 	# See http://docs.ansible.com/ansible/faq.html#how-do-i-generate-crypted-passwords-for-the-user-module for more info
 	GALAXY_USER_PASSWORD: $6$d6becl8ohu0F4$Pzf2NIrfhGVvoGzaqf6aPEDhYi5ZTbmujF0oGv7qGNxXwHOKqfehm197YzEGZqJ4lwxDL5jWU6goqeaMHic3s0
-
+	# Specify if at the end of the installation the Galaxy portal is launched as daemon
+	GALAXY_LAUNCH_DAEMON: true
 
 Example Playbook
 ----------------
