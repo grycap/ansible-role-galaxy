@@ -36,5 +36,5 @@
 
 # Launch the server
 - shell: bash run.sh --daemon chdir={{galaxy_install_path}}/ creates={{galaxy_install_path}}/main.pid
-  sudo: true
-  sudo_user: "{{galaxy_user}}"
+  become: true
+  become_user: "{{galaxy_user}}"
