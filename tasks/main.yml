@@ -38,3 +38,4 @@
 - shell: bash run.sh --daemon chdir={{galaxy_install_path}}/ creates={{galaxy_install_path}}/main.pid
   become: true
   become_user: "{{galaxy_user}}"
+  when: GALAXY_LAUNCH_DAEMON
