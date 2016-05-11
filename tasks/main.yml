@@ -37,7 +37,7 @@
   when: galaxy_lrms != "torque" and galaxy_lrms != "local"
 
 # Install python depencies
-- shell: bash scripts/common_startup.sh --daemon chdir={{galaxy_install_path}}/
+- shell: bash scripts/common_startup.sh chdir={{galaxy_install_path}}/ creates={{galaxy_install_path}}/.venv
   become: true
   become_user: "{{galaxy_user}}"
 
