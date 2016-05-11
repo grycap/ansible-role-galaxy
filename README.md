@@ -11,7 +11,7 @@ The variables that can be passed to this role and a brief description about them
 	# Path to install the Galaxy software
 	galaxy_install_path: /opt/galaxy
 	# Galaxy version to install
-	GALAXY_VERSION: release_15.07
+	GALAXY_VERSION: v16.01
 	# Type of LRMS to use (Currently only supported local or torque)
 	galaxy_lrms: local
 	# E-mail of the admin user
@@ -31,11 +31,11 @@ The variables that can be passed to this role and a brief description about them
 Example Playbook
 ----------------
 
-This an example of how to install the Galaxy portal version 15.07 in the path /opt/galaxy:
+This an example of how to install the Galaxy portal version 16.01 in the path /opt/galaxy:
 
     - hosts: servers
       roles:
-         - { role: indigo-dc.galaxy, GALAXY_VERSION: release_15.07,  galaxy_install_path: /opt/galaxy}
+         - { role: indigo-dc.galaxy, GALAXY_VERSION: v16.01,  galaxy_install_path: /opt/galaxy}
 
 License
 -------
