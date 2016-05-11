@@ -1,11 +1,8 @@
 ---
 # Configure Galaxy to use a Torque LRMS Back-end
 
-# Install pbs_python egg
-- file: path={{galaxy_install_path}}/eggs state=directory
-- shell:  python scripts/scramble.py -e pbs_python chdir={{galaxy_install_path}}
-  environment:
-     LIBTORQUE_DIR: /usr/lib
+# Install pbs_python
+- pip: name=python-pbs virtualenv={{galaxy_install_path}}/.venv
 
 # Configure job_conf.xml
 - copy:
