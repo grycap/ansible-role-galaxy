@@ -5,7 +5,8 @@
 - yum: name=git
   when: ansible_os_family == "RedHat"
 # Download Galaxy
-- git: repo=https://github.com/galaxyproject/galaxy/ dest={{galaxy_install_path}} version={{GALAXY_VERSION}}
+- get_url: url=https://github.com/galaxyproject/galaxy/archive/{{GALAXY_VERSION}}.tar.gz dest=/tmp/{{GALAXY_VERSION}}.tar.gz force=no
+- unarchive: src=/tmp/{{GALAXY_VERSION}}.tar.gz dest={{galaxy_install_path}} copy=no
 
 # General configuration
 - copy: src={{galaxy_install_path}}/config/galaxy.ini.sample dest={{galaxy_install_path}}/config/galaxy.ini force=no
