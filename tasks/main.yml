@@ -24,9 +24,6 @@
 - name: Add the authorized_key to the user {{galaxy_user}}
   authorized_key: user={{galaxy_user}} key="{{ lookup('file', '/tmp/' + galaxy_user + '_id_rsa.pub') }}"
 
-- file: path=/home/{{galaxy_user}} state=directory owner={{galaxy_user}} group={{galaxy_user}}
-- file: path={{galaxy_install_path | dirname}}/galaxy-{{GALAXY_VERSION}} state=directory recurse=yes owner={{galaxy_user}}
-
 - copy: dest="{{galaxy_install_path}}/config/local_env.sh" content="PYTHON_EGG_CACHE={{galaxy_install_path}}/egg\nGALAXY_RUN_ALL=1\nexport PYTHON_EGG_CACHE GALAXY_RUN_ALL"
 
 # Configure Galaxy to use a Torque LRMS Back-end
@@ -35,6 +32,9 @@
 
 - debug: msg="Galaxy LRMS is unknown ({{galaxy_lrms}}). Only torque or local are supported. Assuming local."
   when: galaxy_lrms != "torque" and galaxy_lrms != "local"
+
+- file: path=/home/{{galaxy_user}} state=directory owner={{galaxy_user}} group={{galaxy_user}}
+- file: path={{galaxy_install_path | dirname}}/galaxy-{{GALAXY_VERSION}} state=directory recurse=yes owner={{galaxy_user}}
 
 # Install python depencies
 - shell: bash scripts/common_startup.sh chdir={{galaxy_install_path}}/ creates={{galaxy_install_path}}/.venv/lib/python2.7/site-packages/yaml
