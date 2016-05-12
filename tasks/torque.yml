@@ -3,8 +3,7 @@
 
 # Install pbs_python
 - apt: name=libtorque2-dev
-- get_url: url=ftp://ftp.surfsara.nl/pub/outgoing/pbs_python-4.6.0.tar.gz dest=/tmp/pbs_python-4.6.0.tar.gz
-- unarchive: src=/tmp/pbs_python-4.6.0.tar.gz dest=/tmp copy=no
+- unarchive: src=ftp://ftp.surfsara.nl/pub/outgoing/pbs_python-4.6.0.tar.gz dest=/tmp copy=no
 - command: ./configure chdir=/tmp/pbs_python-4.6.0 creates=/tmp/pbs_python-4.6.0/Makefile
 - command: make chdir=/tmp/pbs_python-4.6.0 creates=/tmp/pbs_python-4.6.0/build
 - pip: name=/tmp/pbs_python-4.6.0 virtualenv={{galaxy_install_path}}/.venv editable=false
