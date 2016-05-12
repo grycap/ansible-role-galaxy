@@ -40,6 +40,11 @@
 - shell: bash scripts/common_startup.sh chdir={{galaxy_install_path}}/ creates={{galaxy_install_path}}/.venv/lib/python2.7/site-packages/yaml
   become: true
   become_user: "{{galaxy_user}}"
+  
+# Create DB
+- shell: bash ./create_db.sh chdir={{galaxy_install_path}}/ creates={{galaxy_install_path}}/database/universe.sqlite
+  become: true
+  become_user: "{{galaxy_user}}"
 
 # Launch the server
 - shell: bash run.sh --daemon chdir={{galaxy_install_path}}/ creates={{galaxy_install_path}}/main.pid
