@@ -6,7 +6,10 @@
 - unarchive: src=ftp://ftp.surfsara.nl/pub/outgoing/pbs_python-4.6.0.tar.gz dest=/tmp copy=no
 - command: ./configure chdir=/tmp/pbs_python-4.6.0 creates=/tmp/pbs_python-4.6.0/Makefile
 - command: make chdir=/tmp/pbs_python-4.6.0 creates=/tmp/pbs_python-4.6.0/build
+- file: path=/tmp/pbs_python-4.6.0 state=directory owner={{galaxy_user}} group={{galaxy_user}}
 - pip: name=/tmp/pbs_python-4.6.0 virtualenv={{galaxy_install_path}}/.venv editable=false
+  become: true
+  become_user: "{{galaxy_user}}"
 
 # Configure job_conf.xml
 - copy:
