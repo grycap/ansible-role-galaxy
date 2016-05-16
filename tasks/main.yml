@@ -5,6 +5,7 @@
 - yum: name=python-virtualenv
   when: ansible_os_family == "RedHat"
 # Download Galaxy
+- file: path={{galaxy_install_path | dirname}} state=directory recurse=yes
 - get_url: url=https://github.com/galaxyproject/galaxy/archive/v{{GALAXY_VERSION}}.tar.gz dest=/tmp/v{{GALAXY_VERSION}}.tar.gz force=no
 - unarchive: src=/tmp/v{{GALAXY_VERSION}}.tar.gz dest={{galaxy_install_path | dirname}} copy=no
 - file: src={{galaxy_install_path | dirname}}/galaxy-{{GALAXY_VERSION}} dest={{galaxy_install_path}} state=link
