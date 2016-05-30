@@ -2,7 +2,10 @@
 # Configure Galaxy to use a Torque LRMS Back-end
 
 # Install pbs_python
-- apt: name=libtorque2-dev
+- apt: name=python-dev,libtorque2-dev
+  when: ansible_os_family == "Debian"
+- yum: name=python-devel,torque-devel
+  when: ansible_os_family == "RedHat"
 - unarchive: src=ftp://ftp.surfsara.nl/pub/outgoing/pbs_python-4.6.0.tar.gz dest=/tmp copy=no
 - command: ./configure chdir=/tmp/pbs_python-4.6.0 creates=/tmp/pbs_python-4.6.0/Makefile
 - command: make chdir=/tmp/pbs_python-4.6.0 creates=/tmp/pbs_python-4.6.0/build
