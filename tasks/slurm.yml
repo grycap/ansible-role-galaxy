@@ -31,12 +31,12 @@
         <job_conf>
           <plugins>
             <plugin id="local" type="runner" load="galaxy.jobs.runners.local:LocalJobRunner" workers="1"/>
-            <plugin id="pbs" type="runner" load="galaxy.jobs.runners.drmaa:DRMAAJobRunne"/>
+            <plugin id="slurm" type="runner" load="galaxy.jobs.runners.drmaa:DRMAAJobRunner"/>
           </plugins>
           <handlers>
             <handler id="main" />
           </handlers>
-          <destinations default="pbs">
+          <destinations default="slurm">
             <destination id="local" runner="local"/>
             <destination id="slurm" runner="slurm" tags="mycluster" />
           </destinations>
