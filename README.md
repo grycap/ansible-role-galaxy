@@ -12,7 +12,7 @@ The variables that can be passed to this role and a brief description about them
 	galaxy_install_path: /opt/galaxy
 	# Galaxy version to install
 	GALAXY_VERSION: 16.01
-	# Type of LRMS to use (Currently only supported local or torque)
+	# Type of LRMS to use (Currently only supported local , slurm or torque)
 	galaxy_lrms: local
 	# E-mail of the admin user
 	galaxy_admin: admin@admin.com
