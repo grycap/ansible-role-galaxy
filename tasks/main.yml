@@ -25,7 +25,8 @@
 - name: Add the authorized_key to the user {{galaxy_user}}
   authorized_key: user={{galaxy_user}} key="{{ lookup('file', '/tmp/' + galaxy_user + '_id_rsa.pub') }}"
 
-- copy: dest="{{galaxy_install_path}}/config/local_env.sh" content="PYTHON_EGG_CACHE={{galaxy_install_path}}/egg\nGALAXY_RUN_ALL=1\nexport PYTHON_EGG_CACHE GALAXY_RUN_ALL"
+- lineinfile: dest="{{galaxy_install_path}}/config/local_env.sh" regexp="PYTHON_EGG_CACHE=" line="export PYTHON_EGG_CACHE={{galaxy_install_path}}/egg" create=yes
+- lineinfile: dest="{{galaxy_install_path}}/config/local_env.sh" regexp="GALAXY_RUN_ALL=" line="GALAXY_RUN_ALL=1\nexport PYTHON_EGG_CACHE GALAXY_RUN_ALL"
 
 # Configure Galaxy to use a Torque LRMS Back-end
 - include: torque.yml
