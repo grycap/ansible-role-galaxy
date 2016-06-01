@@ -21,7 +21,7 @@
 - command: make install chdir=/tmp/slurm-drmaa-1.0.7 creates=/usr/local/lib/libdrmaa.so
   when: ansible_os_family == "RedHat"
 
-- lineinfine: dest="{{galaxy_install_path}}/config/local_env.sh" regexp="DRMAA_LIBRARY_PATH=" line="DRMAA_LIBRARY_PATH=/usr/local/lib/libdrmaa.so"
+- lineinfile: dest="{{galaxy_install_path}}/config/local_env.sh" regexp="DRMAA_LIBRARY_PATH=" line="DRMAA_LIBRARY_PATH=/usr/local/lib/libdrmaa.so"
   when: ansible_os_family == "RedHat"
 
 # Configure job_conf.xml
