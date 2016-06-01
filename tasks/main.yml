@@ -31,8 +31,11 @@
 - include: torque.yml
   when: galaxy_lrms == "torque"
 
-- debug: msg="Galaxy LRMS is unknown ({{galaxy_lrms}}). Only torque or local are supported. Assuming local."
-  when: galaxy_lrms != "torque" and galaxy_lrms != "local"
+- include: slurm.yml
+  when: galaxy_lrms == "slurm"
+
+- debug: msg="Galaxy LRMS is unknown ({{galaxy_lrms}}). Only torque, slurm or local are supported. Assuming local."
+  when: galaxy_lrms != "torque" and galaxy_lrms != "slurm"  and galaxy_lrms != "local"
 
 - file: path=/home/{{galaxy_user}} state=directory owner={{galaxy_user}} group={{galaxy_user}}
 - file: path={{galaxy_install_path | dirname}}/galaxy-{{GALAXY_VERSION}} state=directory recurse=yes owner={{galaxy_user}}
