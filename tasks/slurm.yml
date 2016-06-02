@@ -31,7 +31,7 @@
         <job_conf>
           <plugins>
             <plugin id="local" type="runner" load="galaxy.jobs.runners.local:LocalJobRunner" workers="1"/>
-            <plugin id="slurm" type="runner" load="galaxy.jobs.runners.drmaa:DRMAAJobRunner"/>
+            <plugin id="slurm" type="runner" load="galaxy.jobs.runners.drmaa:DRMAAJobRunner" workers="10"/>
           </plugins>
           <handlers>
             <handler id="main" />
