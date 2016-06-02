@@ -1,0 +1,14 @@
+---
+# Create galaxy user to launch the daemon
+- name: Create User {{item.name}} on the server
+  local_action: user name={{galaxy_user}} password={{GALAXY_USER_PASSWORD}} generate_ssh_key=yes shell=/bin/bash uid={{GALAXY_USER_ID}}
+  ignore_errors: yes
+
+- name: Create User {{item.name}} on the node
+  user: name={{galaxy_user}} password={{GALAXY_USER_PASSWORD}} generate_ssh_key=yes shell=/bin/bash uid={{GALAXY_USER_ID}}
+
+- local_action: command cp /home/{{galaxy_user}}/.ssh/id_rsa.pub /tmp/{{galaxy_user}}_id_rsa.pub creates=/tmp/{{galaxy_user}}_id_rsa.pub
+
+- name: Add the authorized_key to the user {{galaxy_user}}
+  authorized_key: user={{galaxy_user}} key="{{ lookup('file', '/tmp/' + galaxy_user + '_id_rsa.pub') }}"
+

@@ -8,6 +8,8 @@ Role Variables
 
 The variables that can be passed to this role and a brief description about them are as follows.
 
+	# Galaxy node type: portal or wn
+	galaxy_node_type: portal
 	# Path to install the Galaxy software
 	galaxy_install_path: /opt/galaxy
 	# Galaxy version to install
