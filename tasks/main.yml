@@ -1,10 +1,10 @@
 ---
 - debug: msg="Galaxy node type is unknown ({{ galaxy_node_type }}). Only portal or wn are supported. Assuming wn."
-  when: "{{galaxy_node_type}} != 'portal' and {{galaxy_node_type}} != 'wn'"
+  when: galaxy_node_type != 'portal' and galaxy_node_type != 'wn'
 
 # Create galaxy user to launch the daemon
 - include: user.yml
 
 - include: portal.yml
-  when: "{{ galaxy_node_type }} == portal"
+  when: galaxy_node_type == "portal"
 
