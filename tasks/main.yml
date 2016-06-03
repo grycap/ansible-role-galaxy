@@ -5,6 +5,15 @@
 # Create galaxy user to launch the daemon
 - include: user.yml
 
+# Add a fast check to speed reconfiguration
+- stat: path={{galaxy_install_path}}/database/universe.sqlite
+  register: galaxy_installed
+  when: galaxy_node_type == "portal" and not GALAXY_LAUNCH_DAEMON
+
+- stat: path={{galaxy_install_path}}/main.pid
+  register: galaxy_installed
+  when: galaxy_node_type == "portal" and GALAXY_LAUNCH_DAEMON
+
 - include: portal.yml
-  when: galaxy_node_type == "portal"
+  when: galaxy_node_type == "portal" and not galaxy_installed.stat.exists
 
