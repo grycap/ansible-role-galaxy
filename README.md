@@ -1,7 +1,10 @@
-Galaxy Portal Role 
+[![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)  
+[![Build Status](https://travis-ci.org/grycap/ansible-role-galaxy.svg?branch=master)](https://travis-ci.org/grycap/ansible-role-galaxy)
+
+Galaxy Portal Role
 ==================
 
-Install Galaxy Portal [1]. This role has been specifically developed to be used in the INDIGO project.
+Install [Galaxy Portal](https://galaxyproject.org/).
 
 Role Variables
 --------------
@@ -37,13 +40,4 @@ This an example of how to install the Galaxy portal version 16.01 in the path /o
 
     - hosts: servers
       roles:
-         - { role: indigo-dc.galaxy, GALAXY_VERSION: 16.01,  galaxy_install_path: /opt/galaxy}
-
-License
--------
-
-Apache Licence v2 [2]
-
-[1] https://galaxyproject.org/
-
-[2] http://www.apache.org/licenses/LICENSE-2.0
+         - { role: grycap.galaxy, GALAXY_VERSION: 16.01,  galaxy_install_path: /opt/galaxy}

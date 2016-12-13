@@ -1,14 +1,14 @@
 galaxy_info:
   author: Miguel Caballer
   description: Install Galaxy portal
-  company:  INDIGO-DataCloud
+  company:  UPV GRyCAP
   license: Apache
   min_ansible_version: 1.8
   platforms:
   - name: EL
     versions:
     - 6
-    - 7  
+    - 7
   - name: Ubuntu
     versions:
     - trusty
