@@ -1,8 +1,8 @@
 ---
 # Install requisites
-- apt: name=python-virtualenv update_cache=yes cache_valid_time=3600
+- apt: name=python-virtualenv,sudo update_cache=yes cache_valid_time=3600
   when: ansible_os_family == "Debian"
-- yum: name=python-virtualenv
+- yum: name=python-virtualenv,sudo
   when: ansible_os_family == "RedHat"
 # Download Galaxy
 - file: path={{galaxy_install_path | dirname}} state=directory recurse=yes
