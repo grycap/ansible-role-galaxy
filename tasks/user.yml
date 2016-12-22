@@ -1,5 +1,10 @@
 ---
 # Create galaxy user to launch the daemon
+- apt: name=openssh-client
+  when: ansible_os_family == "Debian"
+- yum: name=openssh
+  when: ansible_os_family == "RedHat"
+
 - name: Create User {{galaxy_user}} on the server
   local_action: user name={{galaxy_user}} password={{GALAXY_USER_PASSWORD}} generate_ssh_key=yes shell=/bin/bash uid={{GALAXY_USER_ID}}
   ignore_errors: yes
