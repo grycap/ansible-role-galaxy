@@ -2,6 +2,9 @@
 - debug: msg="Galaxy node type is unknown ({{ galaxy_node_type }}). Only portal or wn are supported. Assuming wn."
   when: galaxy_node_type != 'portal' and galaxy_node_type != 'wn'
 
+- name: installs sudo
+  package: name=sudo
+
 # Create galaxy user to launch the daemon
 - include: user.yml
 
