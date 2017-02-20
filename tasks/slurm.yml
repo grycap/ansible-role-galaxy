@@ -2,30 +2,29 @@
 # Configure Galaxy to use a Torque LRMS Back-end
 
 # Install slurm-drmaa
-- apt: name=slurm-drmaa1
-  when: ansible_os_family == "Debian"
+- name: Download SLURM DRMAA source
+  get_url: url=http://apps.man.poznan.pl/trac/slurm-drmaa/downloads/9 dest=/tmp/slurm-drmaa.tar.gz
 
-- lineinfile: dest="{{galaxy_install_path}}/config/local_env.sh" regexp="DRMAA_LIBRARY_PATH=" line="export DRMAA_LIBRARY_PATH=/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
-  when: ansible_os_family == "Debian"
+- name: Unconpress it
+  unarchive: src=/tmp/slurm-drmaa.tar.gz dest=/tmp creates=/tmp/slurm-drmaa-1.0.7 
 
-- get_url: url=http://apps.man.poznan.pl/trac/slurm-drmaa/downloads/9 dest=/tmp/slurm-drmaa.tar.gz
-  when: ansible_os_family == "RedHat"
-- unarchive: src=/tmp/slurm-drmaa.tar.gz dest=/tmp creates=/tmp/slurm-drmaa-1.0.7 
-  when: ansible_os_family == "RedHat"
-- command: ./configure chdir=/tmp/slurm-drmaa-1.0.7 creates=/tmp/slurm-drmaa-1.0.7/Makefile
-  when: ansible_os_family == "RedHat"
+- name: Configure compilatio
+  command: ./configure chdir=/tmp/slurm-drmaa-1.0.7 creates=/tmp/slurm-drmaa-1.0.7/Makefile
   environment:
    CFLAGS: "-g -O0"
-- command: make chdir=/tmp/slurm-drmaa-1.0.7 creates=/tmp/slurm-drmaa-1.0.7/slurm_drmaa/.libs/libdrmaa.so
-  when: ansible_os_family == "RedHat"
-- command: make install chdir=/tmp/slurm-drmaa-1.0.7 creates=/usr/local/lib/libdrmaa.so
-  when: ansible_os_family == "RedHat"
 
-- lineinfile: dest="{{galaxy_install_path}}/config/local_env.sh" regexp="DRMAA_LIBRARY_PATH=" line="export DRMAA_LIBRARY_PATH=/usr/local/lib/libdrmaa.so"
-  when: ansible_os_family == "RedHat"
+- name: Compile it
+  command: make chdir=/tmp/slurm-drmaa-1.0.7 creates=/tmp/slurm-drmaa-1.0.7/slurm_drmaa/.libs/libdrmaa.so
+
+- name: Install it
+  command: make install chdir=/tmp/slurm-drmaa-1.0.7 creates=/usr/local/lib/libdrmaa.so
+
+- name: Set the lib path in Galaxy
+  lineinfile: dest="{{galaxy_install_path}}/config/local_env.sh" regexp="DRMAA_LIBRARY_PATH=" line="export DRMAA_LIBRARY_PATH=/usr/local/lib/libdrmaa.so"
 
 # Configure job_conf.xml
-- copy:
+- name: Configure job_conf.xml
+  copy:
     content: |
         <?xml version="1.0"?>
         <job_conf>
@@ -47,4 +46,5 @@
     dest: "{{galaxy_install_path}}/config/job_conf.xml"
 
 # Set the databse galaxy path to NFS shared dir
-- file: path={{galaxy_install_path}}/database/slurm state=directory recurse=yes
+- name: Set the databse galaxy path to NFS shared dir
+  file: path={{galaxy_install_path}}/database/slurm state=directory recurse=yes
