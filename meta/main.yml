@@ -17,4 +17,6 @@ galaxy_info:
     - web
 dependencies:
   - { role: grycap.docker, docker_opts: "-g /mnt" }
+  - { role: 'grycap.ntp', ntp_config_server: [ntp.upv.es, ntp.uv.es] }
+  - { role: grycap.munge, munge_key_password: "{{galaxy_munge_key_password}}" }
 

@@ -11,35 +11,29 @@
 - name: Copy uwsgi.conf file
   copy: src=uwsgi.conf dest=/etc/nginx/uwsgi.conf
 
+- name: Create /mnt/galaxy_storage dir
+  file: path=/mnt/galaxy_storage state=directory
+
 - name: force all notified handlers (to assure docker is restarted)
   meta: flush_handlers
+
+- include: slurm.yml
+  when: galaxy_lrms == "slurm"
 
 - name: Start galaxy container
   docker_container:
     name: galaxy
-    image: bgruening/galaxy-stable
+    image: micafer/galaxy
     ports:
      - "8080:80"
      - "8022:22"
      - "8021:21"
      - "9002:9002"
      - "8800:8800"
-    env:
-       GALAXY_LOGGING: full
-       DOCKER_PARENT: True
-#       GALAXY_CONFIG_HOST: 127.0.0.1
-       GALAXY_CONFIG_HOST: 0.0.0.0
-#       GALAXY_CONFIG_APACHE_XSENDFILE: True
-#       GALAXY_CONFIG_USE_REMOTE_USER: True
-#       GALAXY_CONFIG_GALAXY_INFRASTRUCTURE_URL: "https://galaxy-docker.fedcloud-tf.fedcloud.eu"
-#       GALAXY_CONFIG_GALAXY_INFRASTRUCTURE_WEB_PORT: 443
-#       GALAXY_CONFIG_INTERACTIVE_ENVIRONMENT_PLUGINS_DIRECTORY: "config/plugins/interactive_environments"
-#       GALAXY_CONFIG_TOOL_CONFIG_FILE: "config/tool_conf.xml.sample,config/shed_tool_conf.xml.sample,/local_tools/tool_conf.xml"
-#       GALAXY_CONFIG_REMOTE_USER_LOGOUT_HREF: "https://galaxy-docker.fedcloud-tf.fedcloud.eu/Shibboleth.sso/Logout"
-#       GALAXY_CONFIG_ADMIN_USERS: "025166931789a0f57793a6092726c2ad89387a4cc167e7c63c5d85fc91021d18@egi.eu"
+    env: "{{galaxy_docker_env_vars}}"
     volumes:
      - "/var/run/docker.sock:/var/run/docker.sock"
-#     - "/mnt/galaxy_storage:/export/"
+     - "/mnt/galaxy_storage:/export/"
      - "/etc/nginx/nginx.conf:/etc/nginx/nginx.conf"
      - "/etc/nginx/uwsgi.conf:/etc/nginx/conf.d/uwsgi.conf"
     privileged: yes 

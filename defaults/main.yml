@@ -20,3 +20,27 @@ GALAXY_USER_ID: 4001
 GALAXY_USER_PASSWORD: $6$d6becl8ohu0F4$Pzf2NIrfhGVvoGzaqf6aPEDhYi5ZTbmujF0oGv7qGNxXwHOKqfehm197YzEGZqJ4lwxDL5jWU6goqeaMHic3s0
 # Specify if at the end of the installation the Galaxy portal is launched as daemon
 GALAXY_LAUNCH_DAEMON: true
+# Password used to derive a munge key for authentication between the server and the workers.
+galaxy_munge_key_password: ''
+# Slurm server name
+galaxy_slurm_server_name: slurmserver
+# ENV variables for the Docker Galaxy
+galaxy_docker_env_vars:
+   GALAXY_UID: "{{GALAXY_USER_ID}}"
+   GALAXY_LOGGING: full
+   DOCKER_PARENT: True
+#   GALAXY_CONFIG_HOST: 127.0.0.1
+   GALAXY_CONFIG_HOST: 0.0.0.0
+#   GALAXY_CONFIG_APACHE_XSENDFILE: True
+#   GALAXY_CONFIG_USE_REMOTE_USER: True
+#   GALAXY_CONFIG_GALAXY_INFRASTRUCTURE_URL: "https://galaxy-docker.fedcloud-tf.fedcloud.eu"
+#   GALAXY_CONFIG_GALAXY_INFRASTRUCTURE_WEB_PORT: 443
+#   GALAXY_CONFIG_INTERACTIVE_ENVIRONMENT_PLUGINS_DIRECTORY: "config/plugins/interactive_environments"
+#   GALAXY_CONFIG_TOOL_CONFIG_FILE: "config/tool_conf.xml.sample,config/shed_tool_conf.xml.sample,/local_tools/tool_conf.xml"
+#   GALAXY_CONFIG_REMOTE_USER_LOGOUT_HREF: "https://galaxy-docker.fedcloud-tf.fedcloud.eu/Shibboleth.sso/Logout"
+#   GALAXY_CONFIG_ADMIN_USERS: "025166931789a0f57793a6092726c2ad89387a4cc167e7c63c5d85fc91021d18@egi.eu"
+
+# ENV variables for the Docker Galaxy in case of using slurm
+slurm_galaxy_docker_env_vars:
+   NONUSE: slurmctld
+   GALAXY_CONFIG_JOB_CONFIG_FILE: "/export/slurm_job_conf.xml"
