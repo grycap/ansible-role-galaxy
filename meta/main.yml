@@ -16,5 +16,5 @@ galaxy_info:
     - galaxy
     - web
 dependencies:
-  - { role: grycap.docker, docker_opts: "-g /mnt" }
+  - { role: grycap.docker }
   - { role: 'grycap.ntp', ntp_config_server: [ntp.upv.es, ntp.uv.es] }
