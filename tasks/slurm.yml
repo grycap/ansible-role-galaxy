@@ -13,7 +13,7 @@
   changed_when: false
 
 - name: Create munge.key file with password
-  copy: content="{{ key_content.stdout }}" dest=/mnt/galaxy_storage/munge.key mode=0444
+  copy: content="{{ key_content.stdout }}\n" dest=/mnt/galaxy_storage/munge.key mode=0444
   when: galaxy_munge_key_password != ''
 
 - name: Copy munge.key in the export dir
