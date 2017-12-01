@@ -12,7 +12,7 @@
   copy: src=uwsgi.conf dest=/etc/nginx/uwsgi.conf
 
 - name: Create /mnt/galaxy_storage dir
-  file: path=/mnt/galaxy_storage state=directory
+  file: path=/mnt/galaxy_storage state=directory mode=0777
 
 - name: force all notified handlers (to assure docker is restarted)
   meta: flush_handlers

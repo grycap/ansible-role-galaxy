@@ -6,6 +6,7 @@
 - set_fact:
     galaxy_docker_volumes: "{{ galaxy_docker_volumes + slurm_galaxy_docker_volumes }}"
 
+# in case of using galaxy_munge_key_password, generate munge.key file
 - name: Generate munge key with password
   shell: echo -n "{{ galaxy_munge_key_password }}" | sha512sum | cut -d' ' -f1
   when: galaxy_munge_key_password != ''
@@ -13,10 +14,20 @@
   changed_when: false
 
 - name: Create munge.key file with password
-  copy: content="{{ key_content.stdout }}\n" dest=/mnt/galaxy_storage/munge.key mode=0444
+  copy: content="{{ key_content.stdout }}\n" dest=/mnt/galaxy_storage/munge.key
   when: galaxy_munge_key_password != ''
 
-- name: Copy munge.key in the export dir
+# Otherwhise assume the munge.key exists and copy it from the default place
+- name: Copy munge.key file
+  copy: src=/etc/munge/munge.key dest=/mnt/galaxy_storage/munge.key
+  when: galaxy_munge_key_password == ''
+  become: true
+  become_user: munge
+
+- name: Set correct permissions to munge.key file
+  file: path=/mnt/galaxy_storage/munge.key mode=0444 owner=root
+
+- name: Generate slurm.conf in the export dir
   template: src=slurm.conf.j2 dest=/mnt/galaxy_storage/slurm.conf
 
 # Configure job_conf.xml
