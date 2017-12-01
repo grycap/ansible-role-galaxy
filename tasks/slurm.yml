@@ -6,11 +6,15 @@
 - set_fact:
     galaxy_docker_volumes: "{{ galaxy_docker_volumes + slurm_galaxy_docker_volumes }}"
 
-- name: Add read permissins to munge.key
-  file: path=/etc/munge/munge.key owner=root mode=0444
+- name: Generate munge key with password
+  shell: echo -n "{{ galaxy_munge_key_password }}" | sha512sum | cut -d' ' -f1
+  when: galaxy_munge_key_password != ''
+  register: key_content
+  changed_when: false
 
-- name: Copy munge.key in the export dir
-  copy: src=/etc/munge/munge.key dest=/mnt/galaxy_storage/munge.key
+- name: Create munge.key file with password
+  copy: content="{{ key_content.stdout }}" dest=/mnt/galaxy_storage/munge.key mode=0444
+  when: galaxy_munge_key_password != ''
 
 - name: Copy munge.key in the export dir
   template: src=slurm.conf.j2 dest=/mnt/galaxy_storage/slurm.conf

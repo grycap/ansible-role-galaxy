@@ -14,7 +14,7 @@ galaxy_admin_api_key: not_very_secret_api_key
 # User to launch the Galaxy portal
 galaxy_user: galaxy
 # User ID to assing to the galaxy user
-GALAXY_USER_ID: 4001
+GALAXY_USER_ID: 1450
 # Password to assing to the user (galaxy+00)
 # See http://docs.ansible.com/ansible/faq.html#how-do-i-generate-crypted-passwords-for-the-user-module for more info
 GALAXY_USER_PASSWORD: $6$d6becl8ohu0F4$Pzf2NIrfhGVvoGzaqf6aPEDhYi5ZTbmujF0oGv7qGNxXwHOKqfehm197YzEGZqJ4lwxDL5jWU6goqeaMHic3s0
@@ -27,7 +27,6 @@ galaxy_slurm_server_name: slurmserver
 # ENV variables for the Docker Galaxy
 galaxy_docker_env_vars:
    NONUSE: reports
-#   GALAXY_UID: "{{GALAXY_USER_ID}}"
    GALAXY_LOGGING: full
    DOCKER_PARENT: True
 #   GALAXY_CONFIG_HOST: 127.0.0.1
