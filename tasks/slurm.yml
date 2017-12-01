@@ -3,6 +3,9 @@
 - set_fact:
     galaxy_docker_env_vars: "{{ galaxy_docker_env_vars | combine(slurm_galaxy_docker_env_vars) }}"
 
+- set_fact:
+    galaxy_docker_volumes: "{{ galaxy_docker_volumes + slurm_galaxy_docker_volumes }}"
+
 - name: Copy munge.key in the export dir
   copy: src=/etc/munge/munge.key dest=/mnt/galaxy_storage/munge.key
 

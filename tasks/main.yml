@@ -31,13 +31,5 @@
      - "9002:9002"
      - "8800:8800"
     env: "{{galaxy_docker_env_vars}}"
-    volumes:
-     - "/var/run/docker.sock:/var/run/docker.sock"
-     - "/mnt/galaxy_storage:/export/"
-     - "/etc/nginx/nginx.conf:/etc/nginx/nginx.conf"
-     - "/etc/nginx/uwsgi.conf:/etc/nginx/conf.d/uwsgi.conf"
+    volumes: "{{galaxy_docker_volumes}}"
     privileged: yes 
-
-
-
-
