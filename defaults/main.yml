@@ -26,7 +26,7 @@ galaxy_munge_key_password: ''
 galaxy_slurm_server_name: slurmserver
 # ENV variables for the Docker Galaxy
 galaxy_docker_env_vars:
-   GALAXY_UID: "{{GALAXY_USER_ID}}"
+#   GALAXY_UID: "{{GALAXY_USER_ID}}"
    GALAXY_LOGGING: full
    DOCKER_PARENT: True
 #   GALAXY_CONFIG_HOST: 127.0.0.1
