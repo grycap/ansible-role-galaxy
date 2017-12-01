@@ -1,35 +1,9 @@
 ---
-- name: install docker-py
-  pip: name=docker-py
+- debug: msg="Galaxy node type is unknown ({{ galaxy_node_type }}). Only portal or wn are supported. Assuming wn."
+  when: galaxy_node_type != 'portal' and galaxy_node_type != 'wn'
+  
+# Create galaxy user to launch the daemon
+- include: user.yml
 
-- name: Create /etc/nginx dir
-  file: path=/etc/nginx state=directory
-
-- name: Copy nginx.conf file
-  copy: src=nginx.conf dest=/etc/nginx/nginx.conf
-
-- name: Copy uwsgi.conf file
-  copy: src=uwsgi.conf dest=/etc/nginx/uwsgi.conf
-
-- name: Create /mnt/galaxy_storage dir
-  file: path=/mnt/galaxy_storage state=directory mode=0777
-
-- name: force all notified handlers (to assure docker is restarted)
-  meta: flush_handlers
-
-- include: slurm.yml
-  when: galaxy_lrms == "slurm"
-
-- name: Start galaxy container
-  docker_container:
-    name: galaxy
-    image: micafer/galaxy
-    ports:
-     - "8080:80"
-     - "8022:22"
-     - "8021:21"
-     - "9002:9002"
-     - "8800:8800"
-    env: "{{galaxy_docker_env_vars}}"
-    volumes: "{{galaxy_docker_volumes}}"
-    privileged: yes 
+- include: portal.yml
+  when: galaxy_node_type == "portal"

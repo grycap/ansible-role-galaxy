@@ -14,21 +14,21 @@
   changed_when: false
 
 - name: Create munge.key file with password
-  copy: content="{{ key_content.stdout }}\n" dest=/mnt/galaxy_storage/munge.key
+  copy: content="{{ key_content.stdout }}\n" dest={{galaxy_export_dir}}/munge.key
   when: galaxy_munge_key_password != ''
 
 # Otherwhise assume the munge.key exists and copy it from the default place
 - name: Copy munge.key file
-  copy: src=/etc/munge/munge.key dest=/mnt/galaxy_storage/munge.key
+  copy: src=/etc/munge/munge.key dest={{galaxy_export_dir}}/munge.key
   when: galaxy_munge_key_password == ''
   become: true
   become_user: munge
 
 - name: Set correct permissions to munge.key file
-  file: path=/mnt/galaxy_storage/munge.key mode=0444 owner=root
+  file: path={{galaxy_export_dir}}/munge.key mode=0444 owner=root
 
 - name: Generate slurm.conf in the export dir
-  template: src=slurm.conf.j2 dest=/mnt/galaxy_storage/slurm.conf
+  template: src=slurm.conf.j2 dest={{galaxy_export_dir}}/slurm.conf
 
 # Configure job_conf.xml
 - name: Configure job_conf.xml
@@ -47,6 +47,6 @@
             <param id="embed_metadata_in_job">False</param>
           </destinations>
         </job_conf>
-    dest: "/mnt/galaxy_storage/slurm_job_conf.xml"
+    dest: "{{galaxy_export_dir}}/slurm_job_conf.xml"
 
 

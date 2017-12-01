@@ -1,57 +1,35 @@
 ---
-# Install requisites
-- apt: name=python-virtualenv,sudo update_cache=yes cache_valid_time=3600
-  when: ansible_os_family == "Debian"
-- yum: name=python-virtualenv,sudo
-  when: ansible_os_family == "RedHat"
-# Download Galaxy
-- file: path={{galaxy_install_path | dirname}} state=directory recurse=yes
-- get_url: url=https://github.com/galaxyproject/galaxy/archive/v{{GALAXY_VERSION}}.tar.gz dest=/tmp/v{{GALAXY_VERSION}}.tar.gz force=no
-- unarchive: src=/tmp/v{{GALAXY_VERSION}}.tar.gz dest={{galaxy_install_path | dirname}} copy=no
-- file: src={{galaxy_install_path | dirname}}/galaxy-{{GALAXY_VERSION}} dest={{galaxy_install_path}} state=link
+- name: install docker-py
+  pip: name=docker-py
 
-# General configuration
-- copy: src={{galaxy_install_path}}/config/galaxy.ini.sample dest={{galaxy_install_path}}/config/galaxy.ini force=no
-- ini_file: dest={{galaxy_install_path}}/config/galaxy.ini section={{ item.section }} option={{ item.option }} value="{{ item.value }}"
-  with_items:
-    - { section: 'server:main', option: 'host', value: '0.0.0.0' }
-    - { section: 'app:main', option: 'admin_users', value: "{{galaxy_admin}}" }
-    - { section: 'app:main', option: 'master_api_key', value: "{{galaxy_admin_api_key}}" }
-    - { section: 'app:main', option: 'tool_dependency_dir', value: "{{galaxy_install_path}}/tool_dependency_dir" }
+- name: Create /etc/nginx dir
+  file: path=/etc/nginx state=directory
 
-# Create galaxy user to launch the daemon
-- include: user.yml
+- name: Copy nginx.conf file
+  copy: src=nginx.conf dest=/etc/nginx/nginx.conf
 
-- lineinfile: dest="{{galaxy_install_path}}/config/local_env.sh" regexp="PYTHON_EGG_CACHE=" line="export PYTHON_EGG_CACHE={{galaxy_install_path}}/egg" create=yes
-- lineinfile: dest="{{galaxy_install_path}}/config/local_env.sh" regexp="GALAXY_RUN_ALL=" line="export GALAXY_RUN_ALL=1"
+- name: Copy uwsgi.conf file
+  copy: src=uwsgi.conf dest=/etc/nginx/uwsgi.conf
 
-# Configure Galaxy to use a Torque LRMS Back-end
-- include: torque.yml
-  when: galaxy_lrms == "torque"
+- name: Create {{galaxy_export_dir}} dir
+  file: path={{galaxy_export_dir}} state=directory mode=0777
+
+- name: force all notified handlers (to assure docker is restarted)
+  meta: flush_handlers
 
 - include: slurm.yml
   when: galaxy_lrms == "slurm"
 
-- debug: msg="Galaxy LRMS is unknown ({{galaxy_lrms}}). Only torque, slurm or local are supported. Assuming local."
-  when: galaxy_lrms != "torque" and galaxy_lrms != "slurm"  and galaxy_lrms != "local"
-
-- file: path=/home/{{galaxy_user}} state=directory owner={{galaxy_user}} group={{galaxy_user}}
-- file: path={{galaxy_install_path | dirname}}/galaxy-{{GALAXY_VERSION}} state=directory recurse=yes owner={{galaxy_user}}
-
-# Install python depencies
-- shell: bash scripts/common_startup.sh chdir={{galaxy_install_path}}/ creates={{galaxy_install_path}}/.venv/lib/python2.7/site-packages/yaml
-  become: true
-  become_user: "{{galaxy_user}}"
-  ignore_errors: true
-  
-# Create DB
-- shell: bash ./create_db.sh chdir={{galaxy_install_path}}/ creates={{galaxy_install_path}}/database/universe.sqlite
-  become: true
-  become_user: "{{galaxy_user}}"
-  ignore_errors: true
-
-# Launch the server
-- shell: bash run.sh --daemon chdir={{galaxy_install_path}}/ creates={{galaxy_install_path}}/main.pid
-  become: true
-  become_user: "{{galaxy_user}}"
-  when: GALAXY_LAUNCH_DAEMON
+- name: Start galaxy container
+  docker_container:
+    name: galaxy
+    image: micafer/galaxy
+    ports:
+     - "8080:80"
+     - "8022:22"
+     - "8021:21"
+     - "9002:9002"
+     - "8800:8800"
+    env: "{{galaxy_docker_env_vars}}"
+    volumes: "{{galaxy_docker_volumes}}"
+    privileged: yes 
