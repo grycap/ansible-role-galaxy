@@ -21,7 +21,7 @@ GALAXY_USER_PASSWORD: $6$d6becl8ohu0F4$Pzf2NIrfhGVvoGzaqf6aPEDhYi5ZTbmujF0oGv7qG
 # Specify if at the end of the installation the Galaxy portal is launched as daemon
 GALAXY_LAUNCH_DAEMON: true
 # Password used to derive a munge key for authentication between the server and the workers.
-galaxy_munge_key_password: 'galaxy+00'
+galaxy_munge_key_password: ''
 # Slurm server name
 galaxy_slurm_server_name: slurmserver
 # ENV variables for the Docker Galaxy
