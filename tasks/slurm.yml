@@ -6,13 +6,11 @@
 - set_fact:
     galaxy_docker_volumes: "{{ galaxy_docker_volumes + slurm_galaxy_docker_volumes }}"
 
+- name: Add read permissins to munge.key
+  file: path=/etc/munge/munge.key owner=root mode=0444
+
 - name: Copy munge.key in the export dir
   copy: src=/etc/munge/munge.key dest=/mnt/galaxy_storage/munge.key
-  become_user: munge
-  become: yes
-
-- name: Add read permissins to munge.key
-  file: path=/mnt/galaxy_storage/munge.key owner=root mode=0444
 
 - name: Copy munge.key in the export dir
   template: src=slurm.conf.j2 dest=/mnt/galaxy_storage/slurm.conf
