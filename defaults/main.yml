@@ -6,7 +6,7 @@ galaxy_lrms: local
 # E-mail of the admin user
 galaxy_admin: admin@admin.com
 # Password of the admin user
-galaxy_admin_password: admin@admin.com
+galaxy_admin_password: adminpass
 # API key for admin user
 galaxy_admin_api_key: not_very_secret_api_key
 # User to launch the Galaxy portal
