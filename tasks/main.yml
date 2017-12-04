@@ -1,9 +1,15 @@
 ---
 - debug: msg="Galaxy node type is unknown ({{ galaxy_node_type }}). Only portal or wn are supported. Assuming wn."
   when: galaxy_node_type != 'portal' and galaxy_node_type != 'wn'
-  
+
 # Create galaxy user to launch the daemon
 - include: user.yml
+
+- name: Create {{galaxy_export_dir}} dir
+  file: path={{galaxy_export_dir}} state=directory mode=0777
+
+- name: Link export dir
+  file: path=/export src={{galaxy_export_dir}} state=link
 
 - include: portal.yml
   when: galaxy_node_type == "portal"

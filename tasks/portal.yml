@@ -11,9 +11,6 @@
 - name: Copy uwsgi.conf file
   copy: src=uwsgi.conf dest=/etc/nginx/uwsgi.conf
 
-- name: Create {{galaxy_export_dir}} dir
-  file: path={{galaxy_export_dir}} state=directory mode=0777
-
 - name: force all notified handlers (to assure docker is restarted)
   meta: flush_handlers
 
