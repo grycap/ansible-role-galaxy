@@ -44,7 +44,6 @@
           </handlers>
           <destinations default="slurm">
             <destination id="slurm" runner="slurm" tags="mycluster" />
-            <param id="embed_metadata_in_job">False</param>
           </destinations>
         </job_conf>
     dest: "{{galaxy_export_dir}}/slurm_job_conf.xml"
