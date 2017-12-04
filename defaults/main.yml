@@ -21,7 +21,7 @@ galaxy_munge_key_password: ''
 # Slurm server name
 galaxy_slurm_server_name: slurmserver
 # Galaxy export dir
-galaxy_export_dir: /home/galaxy/export
+galaxy_export_dir: /mnt/export
 # ENV variables for the Docker Galaxy
 galaxy_docker_env_vars:
    NONUSE: reports

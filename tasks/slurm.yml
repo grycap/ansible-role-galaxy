@@ -19,7 +19,7 @@
 
 # Otherwhise assume the munge.key exists and copy it from the default place
 - name: Copy munge.key file
-  copy: src=/etc/munge/munge.key dest={{galaxy_export_dir}}/munge.key
+  command: cp /etc/munge/munge.key {{galaxy_export_dir}}/munge.key creates={{galaxy_export_dir}}/munge.key
   when: galaxy_munge_key_password == ''
   become: true
   become_user: munge
