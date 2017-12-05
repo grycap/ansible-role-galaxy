@@ -8,8 +8,5 @@
 - name: Create {{galaxy_export_dir}} dir
   file: path={{galaxy_export_dir}} state=directory mode=0777
 
-- name: Link export dir
-  file: path=/export src={{galaxy_export_dir}} state=link
-
-- include: portal.yml
-  when: galaxy_node_type == "portal"
+- name: Include "{{galaxy_node_type}}" recipe
+  include: "{{galaxy_node_type}}.yml"

@@ -1,0 +1,28 @@
+---
+- name: Link export dir
+  file: path=/export src={{galaxy_export_dir}} state=link
+
+- name: install Galaxy dependences in Deb systems
+  apt: name=python-pip,libz-dev,python-crypto update_cache=yes cache_valid_time=3600
+  when: ansible_os_family == "Debian"
+
+- name: install Galaxy dependences in RedHat systems
+  yum: name=python-pip,zlib-devel,python-crypto
+  when: ansible_os_family == "RedHat"
+
+- name: download Galaxy pip Requirements
+  get_url: url=https://raw.githubusercontent.com/galaxyproject/galaxy/release_17.09/lib/galaxy/dependencies/requirements.txt dest=/tmp/requirements.txt
+
+- name: Install Galaxy WN pip h5py
+  pip: name=h5py
+
+- name: Install Galaxy WN pip Requirements
+  pip:
+    requirements: /tmp/requirements.txt
+    extra_args: --extra-index-url https://wheels.galaxyproject.org/simple
+
+- name: Create {{galaxy_export_dir}}/galaxy-central dir
+  file: path={{galaxy_export_dir}}/galaxy-central state=directory mode=0777
+
+- name: Link galaxy-central dir
+  file: path=/galaxy-central src={{galaxy_export_dir}}/galaxy-central state=link
