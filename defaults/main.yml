@@ -33,15 +33,6 @@ galaxy_docker_env_vars:
    GALAXY_DEFAULT_ADMIN_KEY: "{{galaxy_admin_password}}"
    GALAXY_CONFIG_ADMIN_USERS: "{{galaxy_admin}}"
    GALAXY_CONFIG_MASTER_API_KEY: "{{galaxy_admin_api_key}}"
-#   GALAXY_CONFIG_HOST: 127.0.0.1
-#   GALAXY_CONFIG_APACHE_XSENDFILE: True
-#   GALAXY_CONFIG_USE_REMOTE_USER: True
-#   GALAXY_CONFIG_GALAXY_INFRASTRUCTURE_URL: "https://galaxy-docker.fedcloud-tf.fedcloud.eu"
-#   GALAXY_CONFIG_GALAXY_INFRASTRUCTURE_WEB_PORT: 443
-#   GALAXY_CONFIG_INTERACTIVE_ENVIRONMENT_PLUGINS_DIRECTORY: "config/plugins/interactive_environments"
-#   GALAXY_CONFIG_TOOL_CONFIG_FILE: "config/tool_conf.xml.sample,config/shed_tool_conf.xml.sample,/local_tools/tool_conf.xml"
-#   GALAXY_CONFIG_REMOTE_USER_LOGOUT_HREF: "https://galaxy-docker.fedcloud-tf.fedcloud.eu/Shibboleth.sso/Logout"
-#   GALAXY_CONFIG_ADMIN_USERS: "025166931789a0f57793a6092726c2ad89387a4cc167e7c63c5d85fc91021d18@egi.eu"
 
 # ENV variables for the Docker Galaxy in case of using slurm
 slurm_galaxy_docker_env_vars:
