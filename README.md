@@ -64,8 +64,8 @@ The variables that can be passed to this role and a brief description about them
 Example Playbook
 ----------------
 
-This an example of how to install the Galaxy portal version 16.01 in the path /opt/galaxy:
+This an example of how to install the Galaxy portal:
 
     - hosts: servers
       roles:
-         - { role: grycap.galaxy, GALAXY_VERSION: 16.01,  galaxy_install_path: /opt/galaxy}
+         - { role: grycap.galaxy  }
