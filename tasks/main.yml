@@ -2,21 +2,11 @@
 - debug: msg="Galaxy node type is unknown ({{ galaxy_node_type }}). Only portal or wn are supported. Assuming wn."
   when: galaxy_node_type != 'portal' and galaxy_node_type != 'wn'
 
-- name: installs sudo
-  package: name=sudo
-
 # Create galaxy user to launch the daemon
 - include: user.yml
 
-# Add a fast check to speed reconfiguration
-- stat: path={{galaxy_install_path}}/database/universe.sqlite
-  register: galaxy_installed
-  when: galaxy_node_type == "portal" and not GALAXY_LAUNCH_DAEMON
+- name: Create {{galaxy_export_dir}} dir
+  file: path={{galaxy_export_dir}} state=directory mode=0777
 
-- stat: path={{galaxy_install_path}}/main.pid
-  register: galaxy_installed
-  when: galaxy_node_type == "portal" and GALAXY_LAUNCH_DAEMON
-
-- include: portal.yml
-  when: galaxy_node_type == "portal" and not galaxy_installed.stat.exists
-
+- name: Include "{{galaxy_node_type}}" recipe
+  include: "{{galaxy_node_type}}.yml"

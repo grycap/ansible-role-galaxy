@@ -1,26 +1,34 @@
 ---
-# Configure Galaxy to use a Torque LRMS Back-end
 
-# Install slurm-drmaa
-- name: Download SLURM DRMAA source
-  get_url: url=http://apps.man.poznan.pl/trac/slurm-drmaa/downloads/9 dest=/tmp/slurm-drmaa.tar.gz
+- set_fact:
+    galaxy_docker_env_vars: "{{ galaxy_docker_env_vars | combine(slurm_galaxy_docker_env_vars) }}"
 
-- name: Unconpress it
-  unarchive: src=/tmp/slurm-drmaa.tar.gz dest=/tmp creates=/tmp/slurm-drmaa-1.0.7 
+- set_fact:
+    galaxy_docker_volumes: "{{ galaxy_docker_volumes + slurm_galaxy_docker_volumes }}"
 
-- name: Configure compilatio
-  command: ./configure chdir=/tmp/slurm-drmaa-1.0.7 creates=/tmp/slurm-drmaa-1.0.7/Makefile
-  environment:
-   CFLAGS: "-g -O0"
+# in case of using galaxy_munge_key_password, generate munge.key file
+- name: Generate munge key with password
+  shell: echo -n "{{ galaxy_munge_key_password }}" | sha512sum | cut -d' ' -f1
+  when: galaxy_munge_key_password != ''
+  register: key_content
+  changed_when: false
 
-- name: Compile it
-  command: make chdir=/tmp/slurm-drmaa-1.0.7 creates=/tmp/slurm-drmaa-1.0.7/slurm_drmaa/.libs/libdrmaa.so
+- name: Create munge.key file with password
+  copy: content="{{ key_content.stdout }}\n" dest={{galaxy_export_dir}}/munge.key
+  when: galaxy_munge_key_password != ''
 
-- name: Install it
-  command: make install chdir=/tmp/slurm-drmaa-1.0.7 creates=/usr/local/lib/libdrmaa.so
+# Otherwhise assume the munge.key exists and copy it from the default place
+- name: Copy munge.key file
+  command: cp /etc/munge/munge.key {{galaxy_export_dir}}/munge.key creates={{galaxy_export_dir}}/munge.key
+  when: galaxy_munge_key_password == ''
+  become: true
+  become_user: munge
 
-- name: Set the lib path in Galaxy
-  lineinfile: dest="{{galaxy_install_path}}/config/local_env.sh" regexp="DRMAA_LIBRARY_PATH=" line="export DRMAA_LIBRARY_PATH=/usr/local/lib/libdrmaa.so"
+- name: Set correct permissions to munge.key file
+  file: path={{galaxy_export_dir}}/munge.key mode=0444 owner=root
+
+- name: Generate slurm.conf in the export dir
+  template: src=slurm.conf.j2 dest={{galaxy_export_dir}}/slurm.conf
 
 # Configure job_conf.xml
 - name: Configure job_conf.xml
@@ -29,22 +37,15 @@
         <?xml version="1.0"?>
         <job_conf>
           <plugins>
-            <plugin id="local" type="runner" load="galaxy.jobs.runners.local:LocalJobRunner" workers="1"/>
             <plugin id="slurm" type="runner" load="galaxy.jobs.runners.drmaa:DRMAAJobRunner" workers="10"/>
           </plugins>
           <handlers>
             <handler id="main" />
           </handlers>
           <destinations default="slurm">
-            <destination id="local" runner="local"/>
             <destination id="slurm" runner="slurm" tags="mycluster" />
           </destinations>
-          <tools>
-            <tool id="upload1" destination="local"/>
-          </tools>
         </job_conf>
-    dest: "{{galaxy_install_path}}/config/job_conf.xml"
+    dest: "{{galaxy_export_dir}}/slurm_job_conf.xml"
 
-# Set the databse galaxy path to NFS shared dir
-- name: Set the databse galaxy path to NFS shared dir
-  file: path={{galaxy_install_path}}/database/slurm state=directory recurse=yes
+
