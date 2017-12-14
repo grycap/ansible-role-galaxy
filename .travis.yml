@@ -12,9 +12,11 @@ before_install:
 - sudo apt-add-repository -y ppa:ansible/ansible
 - sudo apt-get update
 - sudo apt-get install -y ansible
+- sudo ansible-galaxy install grycap.docker
+- sudo ansible-galaxy install grycap.ntp
 
 script:
-  - ln -s "${PWD}":/etc/ansible/roles/role_under_test
+  - ln -s ${PWD} /etc/ansible/roles/role_under_test
   # Ansible syntax check.
   - 'ansible-playbook tests/test.yml --syntax-check'
 
