@@ -14,11 +14,12 @@ before_install:
 - sudo apt-get install -y ansible
 
 script:
+  - ln -s "${PWD}":/etc/ansible/roles/role_under_test
   # Ansible syntax check.
   - 'ansible-playbook tests/test.yml --syntax-check'
 
   # Test role installation.
-  - 'ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml'
+  - 'ansible-playbook tests/test.yml'
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
