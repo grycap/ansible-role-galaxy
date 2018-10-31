@@ -26,7 +26,7 @@
      - "8022:22"
      - "8021:21"
      - "9002:9002"
-     - "8800:8800"
+#     - "8800:8800"
     env: "{{galaxy_docker_env_vars}}"
     volumes: "{{galaxy_docker_volumes}}"
     privileged: yes 
