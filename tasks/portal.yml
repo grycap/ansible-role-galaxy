@@ -1,4 +1,7 @@
 ---
+- name: Install dependencies for docker management
+  pip: name=docker
+
 - name: Create /etc/nginx dir
   file: path=/etc/nginx state=directory
 
