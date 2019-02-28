@@ -1,7 +1,4 @@
 ---
-- name: install docker-py
-  pip: name=docker-py
-
 - name: Create /etc/nginx dir
   file: path=/etc/nginx state=directory
 
