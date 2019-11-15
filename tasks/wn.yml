@@ -13,8 +13,11 @@
 - name: download Galaxy pip Requirements
   get_url: url=https://raw.githubusercontent.com/galaxyproject/galaxy/release_17.09/lib/galaxy/dependencies/requirements.txt dest=/tmp/requirements.txt
 
-- name: Install Galaxy WN pip h5py
-  pip: name=h5py
+- name: Install Galaxy WN pip numpy and h5py
+  pip:
+    name:
+      - numpy==1.16.5
+      - h5py
 
 - name: Install Galaxy WN pip Requirements
   pip:
