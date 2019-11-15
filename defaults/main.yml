@@ -24,10 +24,10 @@ galaxy_slurm_server_name: slurmserver
 galaxy_export_dir: /mnt/export
 # ENV variables for the Docker Galaxy
 galaxy_docker_env_vars:
-   NONUSE: reports
-   GALAXY_LOGGING: full
-   DOCKER_PARENT: True
-   GALAXY_CONFIG_HOST: 0.0.0.0
+   NONUSE: "reports"
+   GALAXY_LOGGING: "full"
+   DOCKER_PARENT: "True"
+   GALAXY_CONFIG_HOST: "0.0.0.0"
    GALAXY_DEFAULT_ADMIN_USER: "{{galaxy_admin}}"
    GALAXY_DEFAULT_ADMIN_PASSWORD: "{{galaxy_admin_password}}"
    GALAXY_DEFAULT_ADMIN_KEY: "{{galaxy_admin_password}}"
@@ -36,7 +36,7 @@ galaxy_docker_env_vars:
 
 # ENV variables for the Docker Galaxy in case of using slurm
 slurm_galaxy_docker_env_vars:
-   NONUSE: slurmctld,reports
+   NONUSE: "slurmctld,reports"
    GALAXY_CONFIG_JOB_CONFIG_FILE: "/export/slurm_job_conf.xml"
 
 galaxy_docker_volumes:
