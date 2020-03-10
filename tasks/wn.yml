@@ -17,8 +17,5 @@
   pip:
     requirements: /tmp/requirements.txt
 
-- name: Create {{galaxy_export_dir}}/galaxy-central dir
-  file: path={{galaxy_export_dir}}/galaxy-central state=directory mode=0777
-
 - name: Link galaxy-central dir
   file: path=/galaxy-central src={{galaxy_export_dir}}/galaxy-central state=link
