@@ -1,4 +1,7 @@
 ---
+- name: Create {{galaxy_export_dir}}/galaxy-central dir
+  file: path={{galaxy_export_dir}}/galaxy-central state=directory mode=0777
+
 - name: Install dependencies for docker management
   pip: name=docker
 
@@ -16,9 +19,6 @@
 
 - include: slurm.yml
   when: galaxy_lrms == "slurm"
-
-- name: Create {{galaxy_export_dir}}/galaxy-central dir
-  file: path={{galaxy_export_dir}}/galaxy-central state=directory mode=0777
 
 - name: Start galaxy container
   docker_container:
