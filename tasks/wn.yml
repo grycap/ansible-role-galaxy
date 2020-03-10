@@ -10,8 +10,8 @@
   yum: name=python-pip,zlib-devel,python-crypto
   when: ansible_os_family == "RedHat"
 
-- name: download Galaxy pip Requirements
-  get_url: url=https://raw.githubusercontent.com/galaxyproject/galaxy/release_17.09/lib/galaxy/dependencies/requirements.txt dest=/tmp/requirements.txt
+- name: Copy Galaxy pip Requirements
+  copy: src=requirements.txt dest=/tmp/requirements.txt
 
 - name: Install Galaxy WN pip numpy and h5py
   pip:
