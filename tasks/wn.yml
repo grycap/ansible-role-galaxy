@@ -13,16 +13,9 @@
 - name: Copy Galaxy pip Requirements
   copy: src=requirements.txt dest=/tmp/requirements.txt
 
-- name: Install Galaxy WN pip numpy and h5py
-  pip:
-    name:
-      - numpy==1.16.5
-      - h5py
-
 - name: Install Galaxy WN pip Requirements
   pip:
     requirements: /tmp/requirements.txt
-    extra_args: --extra-index-url https://wheels.galaxyproject.org/simple
 
 - name: Create {{galaxy_export_dir}}/galaxy-central dir
   file: path={{galaxy_export_dir}}/galaxy-central state=directory mode=0777

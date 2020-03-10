@@ -1,6 +1,7 @@
 # packages with C extensions
 # numpy should be installed before bx to enable extra features in bx
-numpy
+h5py
+numpy==1.16.5
 bx-python
 MarkupSafe
 PyYAML
