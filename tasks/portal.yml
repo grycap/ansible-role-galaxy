@@ -5,15 +5,6 @@
 - name: Install dependencies for docker management
   pip: name=docker
 
-- name: Create /etc/nginx dir
-  file: path=/etc/nginx state=directory
-
-- name: Copy nginx.conf file
-  copy: src=nginx.conf dest=/etc/nginx/nginx.conf
-
-- name: Copy uwsgi.conf file
-  copy: src=uwsgi.conf dest=/etc/nginx/uwsgi.conf
-
 - name: force all notified handlers (to assure docker is restarted)
   meta: flush_handlers
 
@@ -23,7 +14,7 @@
 - name: Start galaxy container
   docker_container:
     name: galaxy
-    image: micafer/galaxy
+    image: micafer/galaxy:19.09
     ports:
      - "8080:80"
      - "8022:22"

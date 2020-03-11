@@ -33,19 +33,5 @@
 # Configure job_conf.xml
 - name: Configure job_conf.xml
   copy:
-    content: |
-        <?xml version="1.0"?>
-        <job_conf>
-          <plugins>
-            <plugin id="slurm" type="runner" load="galaxy.jobs.runners.drmaa:DRMAAJobRunner" workers="10"/>
-          </plugins>
-          <handlers>
-            <handler id="main" />
-          </handlers>
-          <destinations default="slurm">
-            <destination id="slurm" runner="slurm" tags="mycluster" />
-          </destinations>
-        </job_conf>
+    src: slurm_job_conf.xml
     dest: "{{galaxy_export_dir}}/slurm_job_conf.xml"
-
-
