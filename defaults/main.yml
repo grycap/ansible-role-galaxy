@@ -25,6 +25,7 @@ galaxy_export_dir: /mnt/export
 # ENV variables for the Docker Galaxy
 galaxy_docker_env_vars:
    NONUSE: "reports"
+   SUPERVISOR_MANAGE_REPORTS: "False"
    GALAXY_LOGGING: "full"
    DOCKER_PARENT: "True"
    GALAXY_CONFIG_HOST: "0.0.0.0"
@@ -42,8 +43,6 @@ slurm_galaxy_docker_env_vars:
 galaxy_docker_volumes:
   - "/var/run/docker.sock:/var/run/docker.sock"
   - "{{galaxy_export_dir}}:/export/"
-  - "/etc/nginx/nginx.conf:/etc/nginx/nginx.conf"
-  - "/etc/nginx/uwsgi.conf:/etc/nginx/conf.d/uwsgi.conf"
 
 slurm_galaxy_docker_volumes:
   - "{{galaxy_export_dir}}/slurm.conf:/etc/slurm-llnl/slurm.conf"
