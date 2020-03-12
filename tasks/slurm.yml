@@ -40,11 +40,11 @@
   package: name=python-virtualenv state=present
 
 - name: Install python-dev
-  yum: name=python-dev
+  yum: name=python-devel
   when: ansible_os_family == "RedHat"
 
 - name: Install python-devel
-  apt: name=python-devel
+  apt: name=python-dev
   when: ansible_os_family == "Debian"
 
 - name: Copy Galaxy pip Requirements
