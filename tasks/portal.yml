@@ -11,6 +11,11 @@
 - include: slurm.yml
   when: galaxy_lrms == "slurm"
 
+- name: Copy local_job_conf.xml
+  copy:
+    src: local_job_conf.xml
+    dest: "{{galaxy_export_dir}}/local_job_conf.xml"
+
 - name: Start galaxy container
   docker_container:
     name: galaxy

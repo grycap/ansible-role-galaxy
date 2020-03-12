@@ -34,6 +34,7 @@ galaxy_docker_env_vars:
    GALAXY_DEFAULT_ADMIN_KEY: "{{galaxy_admin_password}}"
    GALAXY_CONFIG_ADMIN_USERS: "{{galaxy_admin}}"
    GALAXY_CONFIG_MASTER_API_KEY: "{{galaxy_admin_api_key}}"
+   GALAXY_CONFIG_JOB_CONFIG_FILE: "/export/local_job_conf.xml"
 
 # ENV variables for the Docker Galaxy in case of using slurm
 slurm_galaxy_docker_env_vars:
