@@ -24,6 +24,9 @@ script:
 
   # Test role installation.
   - 'sudo useradd munge'
+  - 'sudo mkdir -p /etc/munge'
+  - 'sudo touch /etc/munge/munge.key'
+  - 'sudo mkdir -p /mnt/export && chown 777 /mnt/export'
   - 'sudo ansible-playbook tests/test.yml -e galaxy_lrms=slurm'
 
 notifications:
