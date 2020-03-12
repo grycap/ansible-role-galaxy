@@ -39,6 +39,14 @@
 - name: Install virtualenv
   package: name=python-virtualenv state=present
 
+- name: Install python-dev
+  yum: name=python-dev
+  when: ansible_os_family == "RedHat"
+
+- name: Install python-devel
+  apt: name=python-devel
+  when: ansible_os_family == "Debian"
+
 - name: Copy Galaxy pip Requirements
   #get_url: url=https://raw.githubusercontent.com/galaxyproject/galaxy/v19.09/lib/galaxy/dependencies/pipfiles/default/pinned-requirements.txt dest=/tmp/requirements.txt
   copy: src=requirements.txt dest=/tmp/requirements.txt
