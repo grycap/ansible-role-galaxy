@@ -24,6 +24,7 @@ galaxy_slurm_server_name: slurmserver
 galaxy_export_dir: /mnt/export
 # ENV variables for the Docker Galaxy
 galaxy_docker_env_vars:
+   USE_HTTPS: "True"
    NONUSE: "reports"
    SUPERVISOR_MANAGE_REPORTS: "False"
    GALAXY_LOGGING: "full"
