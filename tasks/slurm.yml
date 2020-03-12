@@ -35,3 +35,16 @@
   copy:
     src: slurm_job_conf.xml
     dest: "{{galaxy_export_dir}}/slurm_job_conf.xml"
+
+- name: Install virtualenv
+  package: name=python-virtualenv state=present
+
+- name: Copy Galaxy pip Requirements
+  #get_url: url=https://raw.githubusercontent.com/galaxyproject/galaxy/v19.09/lib/galaxy/dependencies/pipfiles/default/pinned-requirements.txt dest=/tmp/requirements.txt
+  copy: src=requirements.txt dest=/tmp/requirements.txt
+
+- name: Install Galaxy WN pip Requirements
+  pip:
+    requirements: /tmp/requirements.txt
+    virtualenv: "{{galaxy_export_dir}}/galaxy_venv"
+    extra_args: --only-binary all
