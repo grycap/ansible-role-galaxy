@@ -25,8 +25,7 @@ galaxy_export_dir: /mnt/export
 # ENV variables for the Docker Galaxy
 galaxy_docker_env_vars:
    USE_HTTPS: "True"
-   NONUSE: "reports"
-   SUPERVISOR_MANAGE_REPORTS: "False"
+   NONUSE: "reports,slurmd,slurmctld,nodejs,condor"
    GALAXY_LOGGING: "full"
    DOCKER_PARENT: "True"
    GALAXY_CONFIG_HOST: "0.0.0.0"
@@ -38,7 +37,7 @@ galaxy_docker_env_vars:
 
 # ENV variables for the Docker Galaxy in case of using slurm
 slurm_galaxy_docker_env_vars:
-   NONUSE: "slurmctld,reports"
+   NONUSE: "reports,slurmctld,nodejs,condor"
    GALAXY_CONFIG_JOB_CONFIG_FILE: "/export/slurm_job_conf.xml"
 
 galaxy_docker_volumes:
