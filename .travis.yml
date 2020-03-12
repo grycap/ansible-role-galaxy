@@ -23,7 +23,7 @@ script:
   - 'sudo ansible-playbook tests/test.yml --syntax-check'
 
   # Test role installation.
-  - 'sudo ansible-playbook tests/test.yml'
+  - 'sudo ansible-playbook tests/test.yml -e galaxy_lrms=slurm'
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
