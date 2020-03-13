@@ -57,7 +57,7 @@
             <param id="nativeSpecification" from_environ="NATIVE_SPEC">--ntasks=1 --share</param>
         </destination> <!-- Docker -->
         <destination id="slurm_cluster_docker" runner="slurm">
-            <env file="/galaxy_venv/bin/activate" />
+            <env file="/export/galaxy_venv/bin/activate" />
             <param id="enabled" from_environ="GALAXY_RUNNERS_ENABLE_SLURM">true</param>
 
             <param id="docker_enabled">true</param>
@@ -82,96 +82,21 @@
             <!-- For a stock Galaxy instance and traditional job runner $defaults will expand out as: $galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$default_file_path:rw -->
             <param id="docker_volumes" from_environ="GALAXY_DOCKER_VOLUMES">$defaults</param>
             <param id="docker_default_container_id" from_environ="GALAXY_DOCKER_DEFAULT_CONTAINER">busybox:ubuntu-14.04</param>
-
-
             <param id="nativeSpecification" from_environ="NATIVE_SPEC">--ntasks=1 --share</param>
 
         </destination> <!-- Singularity -->
         <destination id="slurm_cluster_singularity" runner="slurm">
             <env file="/galaxy_venv/bin/activate" />
             <param id="enabled" from_environ="GALAXY_RUNNERS_ENABLE_SLURM">true</param>
-
-
             <param id="singularity_enabled">true</param>
             <param id="singularity_sudo" from_environ="GALAXY_SINGULARITY_SUDO">False</param>
             <!-- The empty volumes from shouldn't affect Galaxy, set GALAXY_SINGULARITY_VOLUMES_FROM to use. -->
             <param id="singularity_volumes_from" from_environ="GALAXY_SINGULARITY_VOLUMES_FROM"></param>
             <!-- For a stock Galaxy instance and traditional job runner $defaults will expand out as: $galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$default_file_path:rw -->
             <param id="singularity_volumes" from_environ="GALAXY_SINGULARITY_VOLUMES">$defauls</param>
-
-
             <param id="nativeSpecification" from_environ="NATIVE_SPEC">--ntasks=1 --share</param>
-
         </destination>
-        <destination id="condor_cluster" runner="condor">
-            <env file="/galaxy_venv/bin/activate" />
-            <param id="enabled" from_environ="GALAXY_RUNNERS_ENABLE_CONDOR">true</param>
 
-
-            <param id="universe" from_environ="GALAXY_CONDOR_UNIVERSE">vanilla</param>
-
-        </destination>
-        <destination id="condor_cluster_docker" runner="condor">
-            <env file="/galaxy_venv/bin/activate" />
-            <param id="enabled" from_environ="GALAXY_RUNNERS_ENABLE_CONDOR">true</param>
-
-            <param id="docker_enabled">true</param>
-            <param id="docker_sudo" from_environ="GALAXY_DOCKER_SUDO">False</param>
-            <!-- The empty volumes from shouldn't affect Galaxy, set GALAXY_DOCKER_VOLUMES_FROM to use. -->
-            <param id="docker_volumes_from" from_environ="GALAXY_DOCKER_VOLUMES_FROM"></param>
-            <!-- For a stock Galaxy instance and traditional job runner $defaults will expand out as: $galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$default_file_path:rw -->
-            <param id="docker_volumes" from_environ="GALAXY_DOCKER_VOLUMES">$defaults</param>
-
-
-            <param id="universe" from_environ="GALAXY_CONDOR_UNIVERSE">vanilla</param>
-
-        </destination>
-        <destination id="condor_cluster_force_docker" runner="condor">
-            <env file="/galaxy_venv/bin/activate" />
-            <param id="enabled" from_environ="GALAXY_RUNNERS_ENABLE_CONDOR">true</param>
-
-            <param id="docker_enabled">true</param>
-            <param id="docker_sudo" from_environ="GALAXY_DOCKER_SUDO">False</param>
-            <!-- The empty volumes from shouldn't affect Galaxy, set GALAXY_DOCKER_VOLUMES_FROM to use. -->
-            <param id="docker_volumes_from" from_environ="GALAXY_DOCKER_VOLUMES_FROM"></param>
-            <!-- For a stock Galaxy instance and traditional job runner $defaults will expand out as: $galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$default_file_path:rw -->
-            <param id="docker_volumes" from_environ="GALAXY_DOCKER_VOLUMES">$defaults</param>
-            <param id="docker_default_container_id" from_environ="GALAXY_DOCKER_DEFAULT_CONTAINER">busybox:ubuntu-14.04</param>
-
-
-            <param id="universe" from_environ="GALAXY_CONDOR_UNIVERSE">vanilla</param>
-
-        </destination>
-        <destination id="condor_docker_universe" runner="condor">
-            <env file="/galaxy_venv/bin/activate" />
-            <param id="enabled" from_environ="GALAXY_RUNNERS_ENABLE_CONDOR">true</param>
-
-            <param id="docker_enabled">true</param>
-            <param id="docker_sudo" from_environ="GALAXY_DOCKER_SUDO">False</param>
-            <!-- The empty volumes from shouldn't affect Galaxy, set GALAXY_DOCKER_VOLUMES_FROM to use. -->
-            <param id="docker_volumes_from" from_environ="GALAXY_DOCKER_VOLUMES_FROM"></param>
-            <!-- For a stock Galaxy instance and traditional job runner $defaults will expand out as: $galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$default_file_path:rw -->
-            <param id="docker_volumes" from_environ="GALAXY_DOCKER_VOLUMES">$defaults</param>
-            <param id="docker_default_container_id" from_environ="GALAXY_DOCKER_DEFAULT_CONTAINER">busybox:ubuntu-14.04</param>
-
-
-            <param id="universe" from_environ="GALAXY_CONDOR_UNIVERSE">docker</param>
-
-        </destination> <!-- Following destinations send to basic Condor runner if no Docker image is available
-             otherwise they both use the Docker image - the first submits a normal Condor job
-             that will run Docker on the resulting worker node and the second uses Condor's
-             native Docker universe support.
-        -->
-        <destination id="condor_docker_cluster_dispatch" runner="dynamic">
-            <param id="type">docker_dispatch</param>
-            <param id="docker_destination_id">condor_cluster</param>
-            <param id="default_destination_id">condor_cluster_docker</param>
-        </destination>
-        <destination id="condor_docker_universe_dispatch" runner="dynamic">
-            <param id="type">docker_dispatch</param>
-            <param id="docker_destination_id">condor_cluster</param>
-            <param id="default_destination_id">condor_docker_universe</param>
-        </destination>
     </destinations>
     <limits></limits>
 </job_conf>
