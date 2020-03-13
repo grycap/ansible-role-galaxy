@@ -21,6 +21,7 @@
     name: galaxy
     image: micafer/galaxy:19.09
     ports:
+     - "8443:443"
      - "8080:80"
      - "8022:22"
      - "8021:21"
