@@ -35,11 +35,13 @@ galaxy_docker_env_vars:
    GALAXY_CONFIG_ADMIN_USERS: "{{galaxy_admin}}"
    GALAXY_CONFIG_MASTER_API_KEY: "{{galaxy_admin_api_key}}"
    GALAXY_CONFIG_JOB_CONFIG_FILE: "/export/local_job_conf.xml"
+   GALAXY_DESTINATIONS_DEFAULT: "local_no_container"
 
 # ENV variables for the Docker Galaxy in case of using slurm
 slurm_galaxy_docker_env_vars:
    NONUSE: "reports,slurmctld,nodejs,condor"
    GALAXY_CONFIG_JOB_CONFIG_FILE: "/export/slurm_job_conf.xml"
+   GALAXY_DESTINATIONS_DEFAULT: "slurm_cluster"
 
 galaxy_docker_volumes:
   - "/var/run/docker.sock:/var/run/docker.sock"
