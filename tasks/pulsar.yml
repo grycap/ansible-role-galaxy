@@ -1,0 +1,53 @@
+---
+- name: Create User {{galaxy_user}} on the node
+  user: name={{galaxy_user}} password={{GALAXY_USER_PASSWORD}} shell=/bin/bash uid={{GALAXY_USER_ID}}
+
+- name: Create pulsar dir
+  file: path={{ galaxy_pulsar_path }} state=directory mode=755 owner=galaxy
+
+- name: Install virtualenv
+  package: name=python-virtualenv
+
+- name: Install pulsar-app
+  pip: name=pulsar-app virtualenv={{ galaxy_pulsar_path }}/venv
+
+- name: Install drmaa with pip
+  pip: name=dmraa virtualenv={{ galaxy_pulsar_path }}/venv
+  when: galaxy_lrms == "slurm"
+
+- name: Install Bzip2
+  package: name=bzip2
+
+- name: Add libdrmaa_path
+  set_fact:
+     libdrmaa_path: ""
+  when: galaxy_lrms == "local"
+
+- name: Add libdrmaa_path
+  set_fact:
+     libdrmaa_path: "--libdrmaa_path /usr/local/lib/libdrmaa.so"
+  when: galaxy_lrms == "slurm"
+
+- name: Configurar pulsar
+  command: "{{ galaxy_pulsar_path }}/venv/bin/pulsar-config {{ libdrmaa_path }} --private_token {{ PULSAR_TOKEN }}"
+  args:
+    chdir: "{{ galaxy_pulsar_path }}"
+    creates: "{{ galaxy_pulsar_path }}/app.yml"
+
+- name: Set owner to pulsar dir
+  file: path={{ galaxy_pulsar_path }} state=directory owner=galaxy recurse=yes
+    
+- name: Create Pulsar systemd unit file
+  template:
+    src: "pulsar.service.j2"
+    dest: "/etc/systemd/system/pulsar.service"
+
+- name: SystemD daemon-reload and enable/start service
+  systemd:
+    state: started
+    enabled: yes
+    name: pulsar.service
+    daemon_reload: yes
+
+- name: Pulsar check
+  command: "{{ galaxy_pulsar_path }}/venv/bin/pulsar-check"

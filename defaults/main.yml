@@ -1,5 +1,5 @@
 ---
-# Galaxy node type: portal or wn
+# Galaxy node type: portal, wn or pulsar
 galaxy_node_type: portal
 # Type of LRMS to use (Currently only supported local, slurm or torque)
 galaxy_lrms: local
@@ -49,3 +49,6 @@ galaxy_docker_volumes:
 
 slurm_galaxy_docker_volumes:
   - "{{galaxy_export_dir}}/slurm.conf:/etc/slurm-llnl/slurm.conf"
+
+galaxy_pulsar_path: /opt/pulsar
+galaxy_pulsar_token: some_pulsar_token
