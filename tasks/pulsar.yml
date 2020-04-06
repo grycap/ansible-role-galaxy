@@ -49,5 +49,5 @@
 - name: Wait pulsar to start
   wait_for: port=8913
 
-- name: Pulsar check
-  command: "{{ galaxy_pulsar_path }}/venv/bin/pulsar-check --private_token={{ PULSAR_TOKEN }}"
+#- name: Pulsar check
+#  command: "{{ galaxy_pulsar_path }}/venv/bin/pulsar-check --private_token={{ PULSAR_TOKEN }}"
