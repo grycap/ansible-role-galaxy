@@ -12,7 +12,7 @@
   pip: name=pulsar-app virtualenv={{ galaxy_pulsar_path }}/venv
 
 - name: Install drmaa with pip
-  pip: name=dmraa virtualenv={{ galaxy_pulsar_path }}/venv
+  pip: name=drmaa virtualenv={{ galaxy_pulsar_path }}/venv
   when: galaxy_lrms == "slurm"
 
 - name: Install Bzip2
