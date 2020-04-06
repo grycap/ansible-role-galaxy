@@ -4,7 +4,6 @@
 
 # Create galaxy user to launch the daemon
 - include: user.yml
-  when: galaxy_node_type != 'pulsar'
 
 - name: Include "{{galaxy_node_type}}" recipe
   include: "{{galaxy_node_type}}.yml"

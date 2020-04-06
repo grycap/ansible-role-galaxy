@@ -1,7 +1,4 @@
 ---
-- name: Create User {{galaxy_user}} on the node
-  user: name={{galaxy_user}} password={{GALAXY_USER_PASSWORD}} shell=/bin/bash uid={{GALAXY_USER_ID}}
-
 - name: Create pulsar dir
   file: path={{ galaxy_pulsar_path }} state=directory mode=755 owner=galaxy
 
@@ -49,5 +46,8 @@
     name: pulsar.service
     daemon_reload: yes
 
+- name: Wait pulsar to start
+  wait_for: port=8913
+
 - name: Pulsar check
-  command: "{{ galaxy_pulsar_path }}/venv/bin/pulsar-check"
+  command: "{{ galaxy_pulsar_path }}/venv/bin/pulsar-check --private_token={{ PULSAR_TOKEN }}"
