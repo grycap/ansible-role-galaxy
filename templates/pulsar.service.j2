@@ -5,6 +5,9 @@ After=time-sync.target
 After=syslog.target
 
 [Service]
+{% if galaxy_lrms == "slurm" %}
+Environment="DRMAA_LIBRARY_PATH=/usr/local/lib/libdrmaa.so"
+{% endif %}
 UMask=022
 Type=simple
 User={{ galaxy_user }}
