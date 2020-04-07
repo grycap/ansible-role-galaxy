@@ -77,17 +77,18 @@
     dest: "{{ galaxy_pulsar_path }}/pulsar.pem"
 
 - name: Set ssl_pem in server.ini
-  lineinfile:
+  ini_file:
     path: "{{ galaxy_pulsar_path }}/server.ini"
-    regexp: 'ssl_pem'
-    line: ssl_pem={{ galaxy_pulsar_path }}/pulsar.pem
-  when: galaxy_pulsar_ssl
+    section: "server:main"
+    option: ssl_pem
+    value: "{{ galaxy_pulsar_path }}/pulsar.pem"
 
 - name: Set host to 0.0.0.0 in server.ini
-  lineinfile:
+  ini_file:
     path: "{{ galaxy_pulsar_path }}/server.ini"
-    regexp: 'host = '
-    line: host = 0.0.0.0
+    section: "server:main"
+    option: host
+    value: "0.0.0.0"
 
 - name: SystemD daemon-reload and enable/start service
   systemd:
