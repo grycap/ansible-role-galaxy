@@ -46,17 +46,42 @@
 - name: Set owner to pulsar dir
   file: path={{ galaxy_pulsar_path }} state=directory owner=galaxy recurse=yes
 
-- name: Install pyOpenSSL with pip
-  lineinfile:
-    path: "{{ galaxy_pulsar_path }}/server.ini"
-    regexp: 'ssl_pem'
-    line: ssl_pem=*
-  when: galaxy_pulsar_ssl
-
 - name: Create Pulsar systemd unit file
   template:
     src: "pulsar.service.j2"
     dest: "/etc/systemd/system/pulsar.service"
+
+- name: Create certs dir
+  file: path={{ galaxy_pulsar_path }}/certs state=directory mode=755 owner=galaxy
+
+- name: Generate an OpenSSL private key.
+  openssl_privatekey:
+    path: "{{ galaxy_pulsar_path }}/certs/key.pem"
+
+- name: Generate an OpenSSL CSR.
+  openssl_csr:
+    path: "{{ galaxy_pulsar_path }}/csr.pem"
+    privatekey_path: "{{ galaxy_pulsar_path }}/certs/key.pem"
+    common_name: "{{ ansible_fqdn }}"
+
+- name: Generate a Self Signed OpenSSL certificate
+  openssl_certificate:
+    path: "{{ galaxy_pulsar_path }}/certs/cert.pem"
+    privatekey_path: "{{ galaxy_pulsar_path }}/certs/key.pem"
+    csr_path: "{{ galaxy_pulsar_path }}/csr.pem"
+    provider: selfsigned
+
+- name: Assemble cert and key into one file
+  assemble:
+    src: "{{ galaxy_pulsar_path }}/certs"
+    dest: "{{ galaxy_pulsar_path }}/pulsar.pem"
+
+- name: Set ssl_pem in server.ini
+  lineinfile:
+    path: "{{ galaxy_pulsar_path }}/server.ini"
+    regexp: 'ssl_pem'
+    line: ssl_pem={{ galaxy_pulsar_path }}/pulsar.pem
+  when: galaxy_pulsar_ssl
 
 - name: SystemD daemon-reload and enable/start service
   systemd:
