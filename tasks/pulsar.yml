@@ -26,7 +26,7 @@
   when: galaxy_lrms == "slurm"
 
 - name: Configurar pulsar
-  command: "{{ galaxy_pulsar_path }}/venv/bin/pulsar-config {{ libdrmaa_path }} --private_token {{ PULSAR_TOKEN }}"
+  command: "{{ galaxy_pulsar_path }}/venv/bin/pulsar-config {{ libdrmaa_path }} --private_token {{ galaxy_pulsar_token }}"
   args:
     chdir: "{{ galaxy_pulsar_path }}"
     creates: "{{ galaxy_pulsar_path }}/app.yml"
@@ -50,4 +50,4 @@
   wait_for: port=8913
 
 #- name: Pulsar check
-#  command: "{{ galaxy_pulsar_path }}/venv/bin/pulsar-check --private_token={{ PULSAR_TOKEN }}"
+#  command: "{{ galaxy_pulsar_path }}/venv/bin/pulsar-check --private_token={{ galaxy_pulsar_token }}"
