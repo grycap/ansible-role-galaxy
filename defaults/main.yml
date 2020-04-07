@@ -52,3 +52,4 @@ slurm_galaxy_docker_volumes:
 
 galaxy_pulsar_path: /opt/pulsar
 galaxy_pulsar_token: some_pulsar_token
+galaxy_pulsar_ssl: true
