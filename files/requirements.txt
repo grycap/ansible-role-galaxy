@@ -28,7 +28,8 @@ cmd2==0.8.9
 coloredlogs==14.0
 configparser==4.0.2 ; python_version < '3.2'
 contextlib2==0.6.0.post1 ; python_version < '3.5'
-cryptography==3.3.2
+cryptography==3.3.2 ; python_version > '3.5'
+cryptography==3.2.1 ; python_version <= '3.5'
 cwltool==1.0.20191225192155
 debtcollector==1.22.0
 decorator==4.4.2
@@ -53,7 +54,7 @@ humanfriendly==7.1.1
 idna==2.9
 importlib-metadata==1.5.0 ; python_version < '3.8'
 ipaddress==1.0.23 ; python_version < '3.3'
-isa-rwval==0.10.7
+isa-rwval==0.10.9
 iso8601==0.1.12
 isodate==0.6.0
 jmespath==0.9.5
@@ -99,7 +100,7 @@ pbr==5.4.4
 prettytable==0.7.2
 prov==1.5.1
 psutil==5.7.0
-pulsar-galaxy-lib==0.14.0.dev1
+pulsar-galaxy-lib==0.14.0
 pyasn1-modules==0.2.8
 pyasn1==0.4.8
 pycparser==2.19
