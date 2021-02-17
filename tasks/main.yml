@@ -8,5 +8,8 @@
 - name: Install virtualenv and pip
   package: name=python3-virtualenv,python3-pip
 
+- name: Create {{galaxy_export_dir}}
+  file: path={{galaxy_export_dir}} recurse=yes state=directory mode=0777
+
 - name: Include "{{galaxy_node_type}}" recipe
   include: "{{galaxy_node_type}}.yml"
