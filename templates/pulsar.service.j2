@@ -1,0 +1,26 @@
+[Unit]
+Description=Pulsar
+After=network.target
+After=time-sync.target
+After=syslog.target
+
+[Service]
+{% if galaxy_lrms == "slurm" %}
+Environment="DRMAA_LIBRARY_PATH=/usr/local/lib/libdrmaa.so"
+{% endif %}
+UMask=022
+Type=simple
+User={{ galaxy_user }}
+Group={{ galaxy_user }}
+WorkingDirectory={{ galaxy_pulsar_path }}
+TimeoutStartSec=30
+ExecStart={{ galaxy_pulsar_path }}/venv/bin/python {{ galaxy_pulsar_path }}/venv/bin/paster serve {{ galaxy_pulsar_path }}/server.ini
+MemoryLimit=6G
+Restart=always
+
+MemoryAccounting=yes
+CPUAccounting=yes
+BlockIOAccounting=yes
+
+[Install]
+WantedBy=multi-user.target
