@@ -37,11 +37,11 @@
     dest: "{{galaxy_export_dir}}/slurm_job_conf.xml"
 
 - name: Install python3-dev
-  yum: name=python3-devel
+  yum: name=python3-devel,bzip2-devel,lzma-devel
   when: ansible_os_family == "RedHat"
 
 - name: Install python3-devel
-  apt: name=python3-dev
+  apt: name=python3-dev,libbz2-dev,liblzma-dev
   when: ansible_os_family == "Debian"
 
 - name: Copy Galaxy pip Requirements
