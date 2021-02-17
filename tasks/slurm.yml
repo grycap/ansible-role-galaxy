@@ -36,15 +36,12 @@
     src: slurm_job_conf.xml
     dest: "{{galaxy_export_dir}}/slurm_job_conf.xml"
 
-- name: Install virtualenv
-  package: name=python-virtualenv state=present
-
-- name: Install python-dev
-  yum: name=python-devel
+- name: Install python3-dev
+  yum: name=python3-devel
   when: ansible_os_family == "RedHat"
 
-- name: Install python-devel
-  apt: name=python-dev
+- name: Install python3-devel
+  apt: name=python3-dev
   when: ansible_os_family == "Debian"
 
 - name: Copy Galaxy pip Requirements
@@ -56,6 +53,7 @@
     requirements: /tmp/requirements.txt
     virtualenv: "{{galaxy_export_dir}}/galaxy_venv"
     extra_args: --only-binary all
+    executable: pip3
 
 - name: Patch error with warnings
   lineinfile:

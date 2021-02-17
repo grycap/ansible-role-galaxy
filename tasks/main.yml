@@ -5,5 +5,8 @@
 # Create galaxy user to launch the daemon
 - include: user.yml
 
+- name: Install virtualenv and pip
+  package: name=python3-virtualenv,python3-pip
+
 - name: Include "{{galaxy_node_type}}" recipe
   include: "{{galaxy_node_type}}.yml"

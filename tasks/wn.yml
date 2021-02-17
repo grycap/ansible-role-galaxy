@@ -3,23 +3,15 @@
   file: path=/export src={{galaxy_export_dir}} state=link
 
 - name: install Galaxy dependences in Deb systems
-  apt: name=python-pip,libz-dev,python-crypto,python-virtualenv update_cache=yes cache_valid_time=3600
+  apt: name=libz-dev,python3-crypto update_cache=yes cache_valid_time=3600
   when: ansible_distribution == "Debian"
 
-- name: install Galaxy dependences in Ubuntu systems 20-
-  apt: name=python-pip,libz-dev,python-crypto,python-virtualenv update_cache=yes cache_valid_time=3600
-  when: ansible_distribution == "Ubuntu" and ansible_distribution_major_version|int < 20
-
-- name: install Galaxy dependences in Ubuntu systems 20+
-  apt: name=python3-pip,libz-dev,python3-crypto,python3-virtualenv update_cache=yes cache_valid_time=3600
-  when: ansible_distribution == "Ubuntu" and ansible_distribution_major_version|int >= 20
-
 - name: install Galaxy dependences in RedHat systems 8-
-  yum: name=python-pip,zlib-devel,python-crypto,python-virtualenv
+  yum: name=zlib-devel,python3-crypto
   when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int < 8
 
 - name: install Galaxy dependences in RedHat systems 8+
-  yum: name=python3-pip,zlib-devel,python3-virtualenv
+  yum: name=zlib-devel
   when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int >= 8
 
 - name: install Galaxy dependences in RedHat systems 8+

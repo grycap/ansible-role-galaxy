@@ -2,26 +2,23 @@
 - name: Create pulsar dir
   file: path={{ galaxy_pulsar_path }} state=directory mode=755 owner=galaxy
 
-- name: Install virtualenv
-  package: name=python-virtualenv
-
 - name: Install SSL requisites RedHat
-  yum: name=libffi-devel,openssl-devel,python-devel,gcc
+  yum: name=libffi-devel,openssl-devel,python3-devel,gcc
   when: galaxy_pulsar_ssl and ansible_os_family == "RedHat"
 
 - name: Install SSL requisites Debian
-  apt: name=libffi-dev,python-dev,libssl-dev,gcc
+  apt: name=libffi-dev,python3-dev,libssl-dev,gcc
   when: galaxy_pulsar_ssl and ansible_os_family == "Debian"
 
 - name: Install pulsar-app
-  pip: name=pulsar-app virtualenv={{ galaxy_pulsar_path }}/venv
+  pip: name=pulsar-app virtualenv={{ galaxy_pulsar_path }}/venv executable=pip3
 
 - name: Install drmaa with pip
-  pip: name=drmaa virtualenv={{ galaxy_pulsar_path }}/venv
+  pip: name=drmaa virtualenv={{ galaxy_pulsar_path }}/venv executable=pip3
   when: galaxy_lrms == "slurm"
 
 - name: Install pyOpenSSL with pip
-  pip: name=pyOpenSSL virtualenv={{ galaxy_pulsar_path }}/venv
+  pip: name=pyOpenSSL virtualenv={{ galaxy_pulsar_path }}/venv executable=pip3
   when: galaxy_pulsar_ssl
 
 - name: Install Bzip2
