@@ -36,15 +36,11 @@
     src: slurm_job_conf.xml
     dest: "{{galaxy_export_dir}}/slurm_job_conf.xml"
 
-- name: Install del libs in RHEL 7-
-  yum: name=python3-devel,bzip2-devel,lzma-devel
-  when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int < 8
-
-- name: Install del libs in RHEL 8+
+- name: Install dev libs in RHEL
   yum: name=python3-devel,bzip2-devel,xz-devel
-  when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int >= 8
+  when: ansible_os_family == "RedHat"
  
-- name: Install del libs in Deb
+- name: Install dev libs in Deb
   apt: name=python3-dev,libbz2-dev,liblzma-dev
   when: ansible_os_family == "Debian"
 
