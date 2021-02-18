@@ -6,8 +6,8 @@
   apt: name=libz-dev,python3-crypto update_cache=yes cache_valid_time=3600
   when: ansible_distribution == "Debian"
 
-- name: install Galaxy dependences in RedHat systems 8-
-  yum: name=zlib-devel,python3-crypto
+- name: install Galaxy dependences in RedHat systems 7
+  yum: name=zlib-devel,python36-crypto
   when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int < 8
 
 - name: install Galaxy dependences in RedHat systems 8+
