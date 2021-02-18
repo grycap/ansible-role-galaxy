@@ -14,6 +14,12 @@
   yum: name=zlib-devel
   when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int >= 8
 
+- name: Install GPG key of forensics repo
+  rpm_key:
+    state: present
+    key: https://forensics.cert.org/forensics.asc
+  when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int >= 8
+
 - name: install Galaxy dependences in RedHat systems 8+
   yum: name=https://forensics.cert.org/centos/cert/8/x86_64/python3-crypto-2.6.1-28.1.el8.x86_64.rpm
   when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int >= 8
