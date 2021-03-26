@@ -1,12 +1,12 @@
 ---
-dist: xenial
+dist: focal
 
 branches:
   only:
   - master
 
 language: python
-python: "2.7"
+python: "3.8"
 
 before_install:
 - sudo apt-get update -qq
