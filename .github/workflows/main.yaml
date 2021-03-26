@@ -1,0 +1,43 @@
+---
+name: CI
+
+on:
+
+  pull_request:
+    branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: Install python
+        run: sudo apt update && sudo apt install -y python3 python3-pip python3-setuptools curl
+
+      - name: Install Ansible
+        run: sudo pip3 install ansible==2.9.15
+
+      - name: Create ansible.cfg with correct roles_path
+        run: sudo printf '[defaults]\nroles_path=../' > ansible.cfg
+  
+      - name: Install grycap.docker
+        run: sudo ansible-galaxy install grycap.docker
+
+      - name: Install geerlingguy.ntp
+        run: sudo ansible-galaxy install geerlingguy.ntp
+
+      - name: Basic role syntax check
+        run: sudo ansible-playbook tests/test.yml -i tests/inventory --syntax-check
+
+      - name: Prepare tesst
+        run: sudo useradd munge && sudo mkdir -p /etc/munge && sudo touch /etc/munge/munge.key && sudo mkdir -p /mnt/export && sudo chmod 777 /mnt/export
+
+      - name: Basic role check
+        run: sudo ansible-playbook tests/test.yml -i tests/inventory -e galaxy_lrms=slurm
