@@ -36,15 +36,12 @@
     src: slurm_job_conf.xml
     dest: "{{galaxy_export_dir}}/slurm_job_conf.xml"
 
-- name: Install virtualenv
-  package: name=python-virtualenv state=present
-
-- name: Install python-dev
-  yum: name=python-devel
+- name: Install dev libs in RHEL
+  yum: name=python3-devel,bzip2-devel,xz-devel
   when: ansible_os_family == "RedHat"
-
-- name: Install python-devel
-  apt: name=python-dev
+ 
+- name: Install dev libs in Deb
+  apt: name=python3-dev,libbz2-dev,liblzma-dev
   when: ansible_os_family == "Debian"
 
 - name: Copy Galaxy pip Requirements

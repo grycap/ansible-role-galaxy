@@ -3,28 +3,35 @@
   file: path=/export src={{galaxy_export_dir}} state=link
 
 - name: install Galaxy dependences in Deb systems
-  apt: name=python-pip,libz-dev,python-crypto,python-virtualenv update_cache=yes cache_valid_time=3600
+  apt: name=libz-dev,python3-crypto update_cache=yes cache_valid_time=3600
   when: ansible_distribution == "Debian"
 
-- name: install Galaxy dependences in Ubuntu systems 20-
-  apt: name=python-pip,libz-dev,python-crypto,python-virtualenv update_cache=yes cache_valid_time=3600
-  when: ansible_distribution == "Ubuntu" and ansible_distribution_major_version|int < 20
-
-- name: install Galaxy dependences in Ubuntu systems 20+
-  apt: name=python3-pip,libz-dev,python3-crypto,python3-virtualenv update_cache=yes cache_valid_time=3600
-  when: ansible_distribution == "Ubuntu" and ansible_distribution_major_version|int >= 20
-
-- name: install Galaxy dependences in RedHat systems 8-
-  yum: name=python-pip,zlib-devel,python-crypto,python-virtualenv
+- name: install Galaxy dependences in RedHat systems 7
+  yum: name=zlib-devel,python36-crypto
   when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int < 8
 
 - name: install Galaxy dependences in RedHat systems 8+
-  yum: name=python3-pip,zlib-devel,python3-virtualenv
+  yum: name=zlib-devel
+  when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int >= 8
+
+- name: Install GPG key of forensics repo
+  rpm_key:
+    state: present
+    key: https://forensics.cert.org/forensics.asc
+  when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int >= 8
+
+- name: Install GPG key of forensics repo
+  rpm_key:
+    state: present
+    key: https://forensics.cert.org/forensics.asc
   when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int >= 8
 
 - name: install Galaxy dependences in RedHat systems 8+
   yum: name=https://forensics.cert.org/centos/cert/8/x86_64/python3-crypto-2.6.1-28.1.el8.x86_64.rpm
   when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int >= 8
+
+- wait_for:
+    path: "{{galaxy_export_dir}}/galaxy-central"
 
 - name: Link galaxy-central dir
   file: path=/galaxy-central src={{galaxy_export_dir}}/galaxy-central state=link
