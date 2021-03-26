@@ -37,7 +37,7 @@ jobs:
         run: sudo ansible-playbook tests/test.yml -i tests/inventory --syntax-check
 
       - name: Prepare tesst
-        run: sudo useradd munge && sudo mkdir -p /etc/munge && sudo touch /etc/munge/munge.key && udo mkdir -p /mnt/export && sudo chmod 777 /mnt/export
+        run: sudo useradd munge && sudo mkdir -p /etc/munge && sudo touch /etc/munge/munge.key && sudo mkdir -p /mnt/export && sudo chmod 777 /mnt/export
 
       - name: Basic role check
         run: sudo ansible-playbook tests/test.yml -i tests/inventory -e galaxy_lrms=slurm
