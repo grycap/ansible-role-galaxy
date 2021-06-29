@@ -53,6 +53,7 @@
     requirements: /tmp/requirements.txt
     virtualenv: "{{galaxy_export_dir}}/galaxy_venv"
     extra_args: --only-binary all
+    executable: pip3
 
 - name: Patch error with warnings
   lineinfile:
