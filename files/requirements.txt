@@ -128,7 +128,7 @@ requests==2.24.0
 requestsexceptions==1.4.0
 rfc3986==1.4.0
 routes==2.4.1
-rsa==4.6 ; python_version >= '3'
+rsa==4.7 ; python_version >= '3'
 rsa==3.1.2 ; python_version < '3'
 ruamel.yaml.clib==0.2.0 ; platform_python_implementation == 'CPython' and python_version < '3.8'
 ruamel.yaml==0.16.0
