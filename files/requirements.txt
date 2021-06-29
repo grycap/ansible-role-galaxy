@@ -114,7 +114,7 @@ pysftp==0.2.9
 python3-openid==3.1.0 ; python_version >= '3.0'
 pytz==2020.1
 pyuwsgi==2.0.19.1
-pyyaml==5.3.1
+pyyaml==5.4
 rdflib-jsonld==0.4.0
 rdflib==4.2.2
 refgenconf==0.7.0
