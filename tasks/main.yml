@@ -6,7 +6,11 @@
 - include: user.yml
 
 - name: Install and pip and setuptools and virtualenv
-  package: name=python3-pip,python3-setuptools,python3-virtualenv
+  package: name=python3-pip,python3-setuptools
+
+- name: Install gcc y virtualenv
+  package: name=gcc,python3-virtualenv
+  when: ansible_os_family == "RedHat"
 
 - name: Symlink virtualenv
   file:
@@ -15,9 +19,9 @@
     state: link
   when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int <= 7
 
-- name: Install gcc
-  package: name=gcc
-  when: ansible_os_family == "RedHat"
+- name: Install virtualenv 
+  pip: name=virtualenv executable=pip3
+  when: ansible_os_family == "Debian"
 
 - name: Install python2 setuptools
   package: name=python-setuptools
