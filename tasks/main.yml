@@ -15,6 +15,10 @@
     state: link
   when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int <= 7
 
+- name: Install gcc
+  package: name=gcc
+  when: ansible_os_family == "RedHat"
+
 - name: Install python2 setuptools
   package: name=python-setuptools
   when: ansible_python_version is version('3', '<')
