@@ -19,7 +19,8 @@
 - name: Start galaxy container
   docker_container:
     name: galaxy
-    image: grycap/galaxy:20.09-20.02.7
+    image: grycap/galaxy:20.09-19.05.5
+#    image: grycap/galaxy:20.09-20.02.7
 #    image: grycap/galaxy:19.09-20
     ports:
      - "8443:443"
