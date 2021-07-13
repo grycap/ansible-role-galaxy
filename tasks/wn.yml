@@ -3,15 +3,15 @@
   file: path=/export src={{galaxy_export_dir}} state=link
 
 - name: install Galaxy dependences in Deb systems
-  apt: name=libz-dev,python3-crypto update_cache=yes cache_valid_time=3600
+  apt: name=libz-dev,python3-crypto,gcc update_cache=yes cache_valid_time=3600
   when: ansible_distribution == "Debian"
 
 - name: install Galaxy dependences in RedHat systems 7
-  yum: name=zlib-devel,python36-crypto
+  yum: name=zlib-devel,python36-crypto,gcc
   when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int < 8
 
 - name: install Galaxy dependences in RedHat systems 8+
-  yum: name=zlib-devel
+  yum: name=zlib-devel,gcc
   when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int >= 8
 
 - name: Install GPG key of forensics repo
