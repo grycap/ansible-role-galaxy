@@ -34,6 +34,8 @@ The variables that can be passed to this role and a brief description about them
 	galaxy_slurm_server_name: slurmserver
 	# Galaxy export dir
 	galaxy_export_dir: /mnt/export
+	# Version of the Galaxy portal docker image to use
+	galaxy_image_version: 20.09-19.05.5 # or 20.09-20.02.7
 	# ENV variables for the Docker Galaxy
 	galaxy_docker_env_vars:
 	   NONUSE: reports
