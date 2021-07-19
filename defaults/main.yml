@@ -42,7 +42,7 @@ galaxy_docker_env_vars:
 
 # ENV variables for the Docker Galaxy in case of using slurm
 slurm_galaxy_docker_env_vars:
-   NONUSE: "reports,slurmctld,nodejs,condor"
+   NONUSE: "reports,slurmctld,slurmd,nodejs,condor"
    GALAXY_CONFIG_JOB_CONFIG_FILE: "/export/slurm_job_conf.xml"
    GALAXY_DESTINATIONS_DEFAULT: "slurm_cluster"
 
