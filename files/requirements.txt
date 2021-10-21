@@ -3,7 +3,7 @@ amqp==2.6.0
 appdirs==1.4.4
 attmap==0.12.11
 attrs==19.3.0
-babel==2.8.0
+babel==2.9.1
 bagit==1.7.0
 bcrypt==3.1.7
 bdbag==1.5.6
