@@ -56,7 +56,7 @@
 
 - name: Patch error with warnings
   lineinfile:
-    path: /home/export/galaxy_venv/lib/python2.7/site-packages/cwltool/__init__.py
+    path: "{{galaxy_export_dir}}galaxy_venv/lib/python2.7/site-packages/cwltool/__init__.py"
     regexp: '^warnings.filterwarnings'
     insertafter: 'import warnings'
     line: 'warnings.filterwarnings("ignore")'
