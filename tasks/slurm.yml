@@ -52,6 +52,7 @@
   pip:
     name: setuptools
     version: 57.5.0
+    virtualenv: "{{galaxy_export_dir}}/galaxy_venv"
 
 - name: Install Galaxy WN pip Requirements
   pip:
