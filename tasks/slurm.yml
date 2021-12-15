@@ -48,6 +48,11 @@
   #get_url: url=https://raw.githubusercontent.com/galaxyproject/galaxy/v19.09/lib/galaxy/dependencies/pipfiles/default/pinned-requirements.txt dest=/tmp/requirements.txt
   copy: src=requirements.txt dest=/tmp/requirements.txt
 
+- name: Pin setuptools version to 57.5.0
+  pip:
+    name: setuptools
+    version: 57.5.0
+
 - name: Install Galaxy WN pip Requirements
   pip:
     requirements: /tmp/requirements.txt
