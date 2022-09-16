@@ -85,7 +85,7 @@ oslo.context==2.23.1
 oslo.i18n==3.25.1
 oslo.log==3.45.2
 oslo.serialization==2.29.2
-oslo.utils==3.42.1
+oslo.utils==4.10.1
 oyaml==0.9
 packaging==20.4
 paramiko==2.10.1
