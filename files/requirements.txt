@@ -17,7 +17,7 @@ botocore==1.12.253
 bx-python==0.8.9
 cachecontrol==0.11.7
 cachetools==4.1.0
-certifi==2020.6.20
+certifi==2022.12.7
 cffi==1.14.0
 chardet==3.0.4
 cheetah3==3.2.5
