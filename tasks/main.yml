@@ -3,7 +3,7 @@
   when: galaxy_node_type != 'portal' and galaxy_node_type != 'wn' and galaxy_node_type != 'pulsar'
 
 # Create galaxy user to launch the daemon
-- include: user.yml
+- include_tasks: user.yml
 
 - name: Install and pip and setuptools and virtualenv
   package: name=python3-pip,python3-setuptools,python3-virtualenv
@@ -30,4 +30,4 @@
   file: path={{galaxy_export_dir}} recurse=yes state=directory mode=0777
 
 - name: Include "{{galaxy_node_type}}" recipe
-  include: "{{galaxy_node_type}}.yml"
+  include_tasks: "{{galaxy_node_type}}.yml"
