@@ -19,7 +19,7 @@
 - name: Start galaxy container
   docker_container:
     name: galaxy
-    image: "grycap/galaxy:{{galaxy_image_version}}"
+    image: quay.io/bgruening/galaxy:{{galaxy_image_version}}"
     ports:
      - "8443:443"
      - "8080:80"

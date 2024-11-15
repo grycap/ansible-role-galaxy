@@ -58,7 +58,7 @@
   pip:
     requirements: /tmp/requirements.txt
     virtualenv: "{{galaxy_export_dir}}/galaxy_venv"
-    extra_args: --only-binary all
+    extra_args: --extra-index-url https://wheels.galaxyproject.org/simple --only-binary all
 
 - name: Patch error with warnings
   lineinfile:
@@ -66,4 +66,4 @@
     regexp: '^warnings.filterwarnings'
     insertafter: 'import warnings'
     line: 'warnings.filterwarnings("ignore")'
-  ignore_errors: yes
+  ignore_errors: true
