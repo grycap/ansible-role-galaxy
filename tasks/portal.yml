@@ -2,9 +2,6 @@
 - name: Create {{galaxy_export_dir}}/galaxy-central dir
   file: path={{galaxy_export_dir}}/galaxy-central state=directory mode=0777
 
-- name: Install dependencies for docker management
-  pip: name=docker executable=pip3
-
 - name: force all notified handlers (to assure docker is restarted)
   meta: flush_handlers
 
