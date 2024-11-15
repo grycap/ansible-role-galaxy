@@ -48,10 +48,10 @@
   #get_url: url=https://raw.githubusercontent.com/galaxyproject/galaxy/v19.09/lib/galaxy/dependencies/pipfiles/default/pinned-requirements.txt dest=/tmp/requirements.txt
   copy: src=requirements.txt dest=/tmp/requirements.txt
 
-- name: Pin setuptools version to 57.5.0
+- name: Pin setuptools version to 69.5.1
   pip:
     name: setuptools
-    version: 57.5.0
+    version: 69.5.1
     virtualenv: "{{galaxy_export_dir}}/galaxy_venv"
 
 - name: Install Galaxy WN pip Requirements
@@ -60,10 +60,3 @@
     virtualenv: "{{galaxy_export_dir}}/galaxy_venv"
     extra_args: --extra-index-url https://wheels.galaxyproject.org/simple --only-binary all
 
-- name: Patch error with warnings
-  lineinfile:
-    path: "{{galaxy_export_dir}}galaxy_venv/lib/python2.7/site-packages/cwltool/__init__.py"
-    regexp: '^warnings.filterwarnings'
-    insertafter: 'import warnings'
-    line: 'warnings.filterwarnings("ignore")'
-  ignore_errors: true

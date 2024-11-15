@@ -23,7 +23,7 @@ galaxy_slurm_server_name: slurmserver
 # Galaxy export dir
 galaxy_export_dir: /mnt/export
 # Version of the Galaxy portal docker image to use
-galaxy_image_version: 24.1
+galaxy_image_version: "24.1"
 # ENV variables for the Docker Galaxy
 galaxy_docker_env_vars:
    USE_HTTPS: "True"
