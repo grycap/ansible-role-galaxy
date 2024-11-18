@@ -30,12 +30,6 @@
 - name: Generate slurm.conf in the export dir
   template: src=slurm.conf.j2 dest={{galaxy_export_dir}}/slurm.conf
 
-# Configure job_conf.xml
-- name: Configure job_conf.xml
-  copy:
-    src: slurm_job_conf.xml
-    dest: "{{galaxy_export_dir}}/slurm_job_conf.xml"
-
 - name: Install dev libs in RHEL
   yum: name=python3-devel,bzip2-devel,xz-devel
   when: ansible_os_family == "RedHat"
