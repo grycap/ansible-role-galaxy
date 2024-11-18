@@ -38,6 +38,8 @@ galaxy_docker_env_vars:
    GALAXY_CONFIG_MASTER_API_KEY: "{{galaxy_admin_api_key}}"
    GALAXY_DESTINATIONS_DEFAULT: "local_no_container"
    GALAXY_RUNNERS_ENABLE_SLURM: "False"
+   GALAXY_RUNNERS_ENABLE_K8: "False"
+   GALAXY_RUNNERS_ENABLE_PBS: "False"
 
 # ENV variables for the Docker Galaxy in case of using slurm
 slurm_galaxy_docker_env_vars:
