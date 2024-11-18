@@ -43,6 +43,7 @@ galaxy_docker_env_vars:
 slurm_galaxy_docker_env_vars:
    NONUSE: "reports,slurmctld,slurmd,nodejs,condor"
    GALAXY_DESTINATIONS_DEFAULT: "slurm_cluster"
+   GALAXY_RUNNERS_ENABLE_SLURM: "True"
 
 galaxy_docker_volumes:
   - "/var/run/docker.sock:/var/run/docker.sock"
