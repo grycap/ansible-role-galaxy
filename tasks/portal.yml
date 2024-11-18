@@ -3,14 +3,14 @@
   file:
     path: "{{galaxy_export_dir}}/galaxy-central"
     state: directory
-    mode: "0777"
+    owner: "{{galaxy_user}}"
 
 - name: Create {{galaxy_export_dir}}/galaxy/database/job_working_directory dir
   file:
     path: "{{galaxy_export_dir}}/galaxy/database/job_working_directory"
     state: directory
-    mode: "0777"
     recurse: yes
+    owner: "{{galaxy_user}}"
 
 - name: force all notified handlers (to assure docker is restarted)
   meta: flush_handlers
