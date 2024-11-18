@@ -38,6 +38,7 @@ galaxy_docker_env_vars:
    GALAXY_CONFIG_MASTER_API_KEY: "{{galaxy_admin_api_key}}"
    GALAXY_CONFIG_JOB_CONFIG_FILE: "/export/local_job_conf.xml"
    GALAXY_DESTINATIONS_DEFAULT: "local_no_container"
+   GALAXY_CONFIG_OUTPUTS_TO_WORKING_DIRECTORY: "False"
 
 # ENV variables for the Docker Galaxy in case of using slurm
 slurm_galaxy_docker_env_vars:

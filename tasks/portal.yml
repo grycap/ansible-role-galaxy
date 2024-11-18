@@ -1,6 +1,16 @@
 ---
 - name: Create {{galaxy_export_dir}}/galaxy-central dir
-  file: path={{galaxy_export_dir}}/galaxy-central state=directory mode=0777
+  file:
+    path: "{{galaxy_export_dir}}/galaxy-central"
+    state: directory
+    mode: "0777"
+
+- name: Create {{galaxy_export_dir}}/galaxy/database/job_working_directory dir
+  file:
+    path: "{{galaxy_export_dir}}/galaxy/database/job_working_directory"
+    state: directory
+    mode: "0777"
+    recurse: yes
 
 - name: force all notified handlers (to assure docker is restarted)
   meta: flush_handlers
