@@ -102,19 +102,3 @@
   docker_compose:
     project_src: /opt/galaxy/
     state: present
-
-
-- name: Start galaxy container
-  docker_container:
-    name: galaxy
-    image: "quay.io/bgruening/galaxy:{{galaxy_image_version}}"
-    ports:
-     - "8443:443"
-     - "8080:80"
-     - "8022:22"
-     - "8021:21"
-     - "9002:9002"
-#     - "8800:8800"
-    env: "{{galaxy_docker_env_vars}}"
-    volumes: "{{galaxy_docker_volumes}}"
-    privileged: yes 
