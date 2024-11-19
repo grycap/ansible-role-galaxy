@@ -1,9 +1,16 @@
 ---
 - name: Create {{galaxy_export_dir}}/galaxy-central dir
-  file: path={{galaxy_export_dir}}/galaxy-central state=directory mode=0777
+  file:
+    path: "{{galaxy_export_dir}}/galaxy-central"
+    state: directory
+    owner: "{{galaxy_user}}"
 
-- name: Install dependencies for docker management
-  pip: name=docker executable=pip3
+- name: Create {{galaxy_export_dir}}/galaxy/database/job_working_directory dir
+  file:
+    path: "{{galaxy_export_dir}}/galaxy/database/job_working_directory"
+    state: directory
+    recurse: yes
+    owner: "{{galaxy_user}}"
 
 - name: force all notified handlers (to assure docker is restarted)
   meta: flush_handlers
@@ -11,15 +18,10 @@
 - include_tasks: slurm.yml
   when: galaxy_lrms == "slurm"
 
-- name: Copy local_job_conf.xml
-  copy:
-    src: local_job_conf.xml
-    dest: "{{galaxy_export_dir}}/local_job_conf.xml"
-
 - name: Start galaxy container
   docker_container:
     name: galaxy
-    image: "grycap/galaxy:{{galaxy_image_version}}"
+    image: "quay.io/bgruening/galaxy:{{galaxy_image_version}}"
     ports:
      - "8443:443"
      - "8080:80"

@@ -51,7 +51,7 @@ The variables that can be passed to this role and a brief description about them
 	# ENV variables for the Docker Galaxy in case of using slurm
 	slurm_galaxy_docker_env_vars:
 	   NONUSE: slurmctld,reports
-	   GALAXY_CONFIG_JOB_CONFIG_FILE: "/export/slurm_job_conf.xml"
+	   GALAXY_DESTINATIONS_DEFAULT: "slurm_cluster_docker"
 
 	galaxy_docker_volumes:
 	  - "/var/run/docker.sock:/var/run/docker.sock"

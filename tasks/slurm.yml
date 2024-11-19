@@ -30,12 +30,6 @@
 - name: Generate slurm.conf in the export dir
   template: src=slurm.conf.j2 dest={{galaxy_export_dir}}/slurm.conf
 
-# Configure job_conf.xml
-- name: Configure job_conf.xml
-  copy:
-    src: slurm_job_conf.xml
-    dest: "{{galaxy_export_dir}}/slurm_job_conf.xml"
-
 - name: Install dev libs in RHEL
   yum: name=python3-devel,bzip2-devel,xz-devel
   when: ansible_os_family == "RedHat"
@@ -45,25 +39,17 @@
   when: ansible_os_family == "Debian"
 
 - name: Copy Galaxy pip Requirements
-  #get_url: url=https://raw.githubusercontent.com/galaxyproject/galaxy/v19.09/lib/galaxy/dependencies/pipfiles/default/pinned-requirements.txt dest=/tmp/requirements.txt
+  #get_url: url=https://raw.githubusercontent.com/galaxyproject/galaxy/refs/tags/v24.1/lib/galaxy/dependencies/pinned-requirements.txt dest=/tmp/requirements.txt
   copy: src=requirements.txt dest=/tmp/requirements.txt
 
-- name: Pin setuptools version to 57.5.0
+- name: Pin setuptools version to 69.5.1
   pip:
     name: setuptools
-    version: 57.5.0
+    version: 69.5.1
     virtualenv: "{{galaxy_export_dir}}/galaxy_venv"
 
 - name: Install Galaxy WN pip Requirements
   pip:
     requirements: /tmp/requirements.txt
     virtualenv: "{{galaxy_export_dir}}/galaxy_venv"
-    extra_args: --only-binary all
-
-- name: Patch error with warnings
-  lineinfile:
-    path: "{{galaxy_export_dir}}galaxy_venv/lib/python2.7/site-packages/cwltool/__init__.py"
-    regexp: '^warnings.filterwarnings'
-    insertafter: 'import warnings'
-    line: 'warnings.filterwarnings("ignore")'
-  ignore_errors: yes
+    extra_args: --extra-index-url https://wheels.galaxyproject.org/simple --only-binary all

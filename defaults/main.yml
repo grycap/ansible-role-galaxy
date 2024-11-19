@@ -23,8 +23,7 @@ galaxy_slurm_server_name: slurmserver
 # Galaxy export dir
 galaxy_export_dir: /mnt/export
 # Version of the Galaxy portal docker image to use
-galaxy_image_version: 20.09-19.05.5
-# galaxy_image_version: 20.09-20.02.7
+galaxy_image_version: "24.1"
 # ENV variables for the Docker Galaxy
 galaxy_docker_env_vars:
    USE_HTTPS: "True"
@@ -37,14 +36,16 @@ galaxy_docker_env_vars:
    GALAXY_DEFAULT_ADMIN_KEY: "{{galaxy_admin_password}}"
    GALAXY_CONFIG_ADMIN_USERS: "{{galaxy_admin}}"
    GALAXY_CONFIG_MASTER_API_KEY: "{{galaxy_admin_api_key}}"
-   GALAXY_CONFIG_JOB_CONFIG_FILE: "/export/local_job_conf.xml"
    GALAXY_DESTINATIONS_DEFAULT: "local_no_container"
+   GALAXY_RUNNERS_ENABLE_SLURM: "False"
+   GALAXY_RUNNERS_ENABLE_K8: "False"
+   GALAXY_RUNNERS_ENABLE_PBS: "False"
 
 # ENV variables for the Docker Galaxy in case of using slurm
 slurm_galaxy_docker_env_vars:
    NONUSE: "reports,slurmctld,slurmd,nodejs,condor"
-   GALAXY_CONFIG_JOB_CONFIG_FILE: "/export/slurm_job_conf.xml"
    GALAXY_DESTINATIONS_DEFAULT: "slurm_cluster"
+   GALAXY_RUNNERS_ENABLE_SLURM: "True"
 
 galaxy_docker_volumes:
   - "/var/run/docker.sock:/var/run/docker.sock"

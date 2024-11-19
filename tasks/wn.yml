@@ -2,6 +2,13 @@
 - name: Link export dir
   file: path=/export src={{galaxy_export_dir}} state=link
 
+- name: Link galaxy_env dir
+  file: path=/galaxy_venv src={{galaxy_export_dir}}/galaxy_venv state=link
+
+- name: install 2to3 in Deb systems
+  apt: name=2to3 update_cache=yes cache_valid_time=3600
+  when: ansible_os_family == "Debian"
+
 - name: install Galaxy dependences in Deb systems
   apt: name=libz-dev,python3-crypto update_cache=yes cache_valid_time=3600
   when: ansible_distribution == "Debian"
@@ -11,7 +18,7 @@
   when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int < 8
 
 - name: install Galaxy dependences in RedHat systems 8+
-  yum: name=zlib-devel
+  yum: name=zlib-devel,python-tools
   when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int >= 8
 
 - name: Install GPG key of forensics repo
