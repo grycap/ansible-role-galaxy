@@ -5,8 +5,12 @@
 - name: Link galaxy_env dir
   file: path=/galaxy_venv src={{galaxy_export_dir}}/galaxy_venv state=link
 
+- name: install 2to3 in Deb systems
+  apt: name=2to3 update_cache=yes cache_valid_time=3600
+  when: ansible_os_family == "Debian"
+
 - name: install Galaxy dependences in Deb systems
-  apt: name=libz-dev,python3-crypto,2to3 update_cache=yes cache_valid_time=3600
+  apt: name=libz-dev,python3-crypto update_cache=yes cache_valid_time=3600
   when: ansible_distribution == "Debian"
 
 - name: install Galaxy dependences in RedHat systems 7
