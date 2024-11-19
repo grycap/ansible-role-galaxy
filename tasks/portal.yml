@@ -47,7 +47,7 @@
               privileged: true
               image: quay.io/bgruening/galaxy:{{galaxy_image_version}}
               container_name: galaxy_portal
-              environnment: {{ galaxy_docker_env_vars | to_yaml }}
+              environment: {{ galaxy_docker_env_vars | to_yaml }}
               expose:
                   - "8080"
               ports:
@@ -60,7 +60,7 @@
               labels:
                 - "traefik.enable=true"
                 - "traefik.http.routers.galaxy.service=galaxy"
-                - "traefik.http.routers.galaxy.rule=Host(`{{ galaxy_dns_name }}`)"
+                - "traefik.http.routers.galaxy.rule=Host(`{{ dns_name }}`)"
                 - "traefik.http.routers.galaxy.entrypoints=websecure"
                 - "traefik.http.routers.galaxy.tls.certresolver=myresolver"
                 - "traefik.http.services.galaxy.loadbalancer.server.port=8080"
@@ -81,7 +81,7 @@
                 - "--certificatesresolvers.myresolver.acme.httpchallenge=true"
                 - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=galaxy"
                 #- "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
-                - "--certificatesresolvers.myresolver.acme.email={{ galaxy_cert_email }}"
+                - "--certificatesresolvers.myresolver.acme.email={{ galaxy_admin }}"
                 - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
               ports:
                 - "80:80"
