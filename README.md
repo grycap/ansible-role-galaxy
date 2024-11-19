@@ -35,23 +35,30 @@ The variables that can be passed to this role and a brief description about them
 	# Galaxy export dir
 	galaxy_export_dir: /mnt/export
 	# Version of the Galaxy portal docker image to use
-	galaxy_image_version: 20.09-19.05.5 # or 20.09-20.02.7
+	galaxy_image_version: "24.1"
 	# ENV variables for the Docker Galaxy
 	galaxy_docker_env_vars:
-	   NONUSE: reports
-	   GALAXY_LOGGING: full
-	   DOCKER_PARENT: True
-	   GALAXY_CONFIG_HOST: 0.0.0.0
-	   GALAXY_DEFAULT_ADMIN_USER: "{{galaxy_admin}}"
-	   GALAXY_DEFAULT_ADMIN_PASSWORD: "{{galaxy_admin_password}}"
-	   GALAXY_DEFAULT_ADMIN_KEY: "{{galaxy_admin_password}}"
-	   GALAXY_CONFIG_ADMIN_USERS: "{{galaxy_admin}}"
-	   GALAXY_CONFIG_MASTER_API_KEY: "{{galaxy_admin_api_key}}"
+		USE_HTTPS: "True"
+		GALAXY_CONFIG_BRAND: "Galaxy"
+		NONUSE: "reports,slurmd,slurmctld,nodejs,condor"
+		GALAXY_LOGGING: "full"
+		DOCKER_PARENT: "True"
+		GALAXY_CONFIG_HOST: "0.0.0.0"
+		GALAXY_DEFAULT_ADMIN_USER: "{{galaxy_admin}}"
+		GALAXY_DEFAULT_ADMIN_PASSWORD: "{{galaxy_admin_password}}"
+		GALAXY_DEFAULT_ADMIN_KEY: "{{galaxy_admin_password}}"
+		GALAXY_CONFIG_ADMIN_USERS: "{{galaxy_admin}}"
+		GALAXY_CONFIG_MASTER_API_KEY: "{{galaxy_admin_api_key}}"
+		GALAXY_DESTINATIONS_DEFAULT: "local_no_container"
+		GALAXY_RUNNERS_ENABLE_SLURM: "False"
+		GALAXY_RUNNERS_ENABLE_K8: "False"
+		GALAXY_RUNNERS_ENABLE_PBS: "False"
 
 	# ENV variables for the Docker Galaxy in case of using slurm
 	slurm_galaxy_docker_env_vars:
-	   NONUSE: slurmctld,reports
-	   GALAXY_DESTINATIONS_DEFAULT: "slurm_cluster_docker"
+		NONUSE: "reports,slurmctld,slurmd,nodejs,condor"
+		GALAXY_DESTINATIONS_DEFAULT: "slurm_cluster"
+		GALAXY_RUNNERS_ENABLE_SLURM: "True"
 
 	galaxy_docker_volumes:
 	  - "/var/run/docker.sock:/var/run/docker.sock"
