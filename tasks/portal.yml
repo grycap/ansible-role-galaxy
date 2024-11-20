@@ -18,14 +18,13 @@
 - include_tasks: slurm.yml
   when: galaxy_lrms == "slurm"
 
+- name: Set public_ip_address to default IP
+  set_fact:
+    public_ip_address: "{{ ansible_default_ipv4.address }}"
 - name: Set public_ip_address to Public IP
   set_fact:
     public_ip_address: "{{ IM_NODE_PUBLIC_IP }}"
   when: IM_NODE_PUBLIC_IP is defined and IM_NODE_PUBLIC_IP != ""
-- name: Set public_ip_address to default IP
-  set_fact:
-    public_ip_address: "{{ ansible_default_ipv4.address }}"
-  when: IM_NODE_PUBLIC_IP is not defined or IM_NODE_PUBLIC_IP != ""
 - name: Set default DNS name (nip.io)
   set_fact:
     dns_name: "galaxy.{{ public_ip_address }}.nip.io"
