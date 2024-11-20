@@ -67,10 +67,11 @@
                 - "traefik.http.services.galaxy.loadbalancer.server.scheme=https"
                 - "traefik.docker.network=mlflow_frontend"
           traefik:
-              image: "traefik:v2.10"
+              image: "traefik:v2.11"
               container_name: "traefik"
               command:
                 #- "--log.level=DEBUG"
+                - "--serversTransport.insecureSkipVerify=true"
                 - "--api.insecure=true"
                 - "--providers.docker=true"
                 - "--providers.docker.exposedbydefault=false"
