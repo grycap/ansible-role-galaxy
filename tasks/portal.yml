@@ -18,17 +18,92 @@
 - include_tasks: slurm.yml
   when: galaxy_lrms == "slurm"
 
-- name: Start galaxy container
-  docker_container:
-    name: galaxy
-    image: "quay.io/bgruening/galaxy:{{galaxy_image_version}}"
-    ports:
-     - "8443:443"
-     - "8080:80"
-     - "8022:22"
-     - "8021:21"
-     - "9002:9002"
-#     - "8800:8800"
-    env: "{{galaxy_docker_env_vars}}"
-    volumes: "{{galaxy_docker_volumes}}"
-    privileged: yes 
+- name: Set public_ip_address to default IP
+  set_fact:
+    public_ip_address: "{{ ansible_default_ipv4.address }}"
+- name: Set public_ip_address to Public IP
+  set_fact:
+    public_ip_address: "{{ IM_NODE_PUBLIC_IP }}"
+  when: IM_NODE_PUBLIC_IP is defined and IM_NODE_PUBLIC_IP != ""
+- name: Set default DNS name (nip.io)
+  set_fact:
+    dns_name: "galaxy.{{ public_ip_address }}.nip.io"
+  when: galaxy_dns_name is not defined or galaxy_dns_name == ""
+- name: Set custom DNS name
+  set_fact:
+    dns_name: "{{ galaxy_dns_name }}"
+  when: galaxy_dns_name is defined and galaxy_dns_name != ""
+
+- name: Create galaxy directory
+  file:
+    path: /opt/galaxy
+    state: directory
+    mode: '755'
+
+- name: Create docker-compose file
+  copy:
+    content: |
+      version: '3.3'
+      services:
+          galaxy:
+              restart: on-failure
+              privileged: true
+              image: quay.io/bgruening/galaxy:{{galaxy_image_version}}
+              container_name: galaxy_portal
+              environment: {{ galaxy_docker_env_vars | to_yaml }}
+              expose:
+                  - "443"
+              ports:
+                - "8022:22"
+                - "8021:21"
+                - "9002:9002"
+              networks:
+                  - frontend
+              volumes: {{ galaxy_docker_volumes }}
+              labels:
+                - "traefik.enable=true"
+                - "traefik.http.routers.galaxy.service=galaxy"
+                - "traefik.http.routers.galaxy.rule=Host(`{{ dns_name }}`)"
+                - "traefik.http.routers.galaxy.entrypoints=websecure"
+                - "traefik.http.routers.galaxy.tls.certresolver=myresolver"
+                - "traefik.http.services.galaxy.loadbalancer.server.port=443"
+                - "traefik.http.services.galaxy.loadbalancer.server.scheme=https"
+                - "traefik.docker.network=mlflow_frontend"
+          traefik:
+              image: "traefik:v2.11"
+              container_name: "traefik"
+              command:
+                #- "--log.level=DEBUG"
+                - "--serversTransport.insecureSkipVerify=true"
+                - "--api.insecure=true"
+                - "--providers.docker=true"
+                - "--providers.docker.exposedbydefault=false"
+                - "--entrypoints.galaxy.address=:80"
+                - "--entrypoints.websecure.address=:443"
+                - "--entrypoints.galaxy.http.redirections.entryPoint.to=websecure"
+                - "--entrypoints.galaxy.http.redirections.entryPoint.scheme=https"
+                - "--entrypoints.galaxy.http.redirections.entrypoint.permanent=true"
+                - "--certificatesresolvers.myresolver.acme.httpchallenge=true"
+                - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=galaxy"
+                #- "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+                - "--certificatesresolvers.myresolver.acme.email={{ galaxy_admin }}"
+                - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+              ports:
+                - "80:80"
+                - "443:443"
+                - "8080:8080"
+              volumes:
+                - "./letsencrypt:/letsencrypt"
+                - "/var/run/docker.sock:/var/run/docker.sock:ro"
+              networks:
+                - frontend
+      networks:
+          frontend:
+              driver: bridge
+    dest: /opt/galaxy/docker-compose.yaml
+    mode: '644'
+
+- name: Exec docker-compose up
+  docker_compose:
+    project_src: /opt/galaxy/
+    state: present
