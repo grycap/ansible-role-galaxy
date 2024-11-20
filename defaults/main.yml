@@ -28,7 +28,7 @@ galaxy_image_version: "24.1"
 galaxy_docker_env_vars:
    USE_HTTPS: "True"
    GALAXY_CONFIG_BRAND: "Galaxy"
-   NONUSE: "reports,slurmd,slurmctld,nodejs,condor"
+   NONUSE: "reports,slurmd,slurmctld,nodejs,condor,proftp,flower"
    GALAXY_LOGGING: "full"
    DOCKER_PARENT: "True"
    GALAXY_CONFIG_HOST: "0.0.0.0"
@@ -44,7 +44,7 @@ galaxy_docker_env_vars:
 
 # ENV variables for the Docker Galaxy in case of using slurm
 slurm_galaxy_docker_env_vars:
-   NONUSE: "reports,slurmctld,slurmd,nodejs,condor"
+   NONUSE: "reports,slurmctld,slurmd,nodejs,condor,proftp,flower"
    GALAXY_DESTINATIONS_DEFAULT: "slurm_cluster"
    GALAXY_RUNNERS_ENABLE_SLURM: "True"
 
