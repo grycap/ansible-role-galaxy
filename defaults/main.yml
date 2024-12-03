@@ -24,11 +24,15 @@ galaxy_slurm_server_name: slurmserver
 galaxy_export_dir: /mnt/export
 # Version of the Galaxy portal docker image to use
 galaxy_image_version: "24.1"
+# Service to disable in the Galaxy portal
+galaxy_nonuse: "reports,slurmctld,slurmd,nodejs,condor,proftp,flower"
+# Brand of the Galaxy portal
+galaxy_brand: "Galaxy"
 # ENV variables for the Docker Galaxy
 galaxy_docker_env_vars:
    USE_HTTPS: "True"
-   GALAXY_CONFIG_BRAND: "Galaxy"
-   NONUSE: "reports,slurmd,slurmctld,nodejs,condor,proftp,flower"
+   GALAXY_CONFIG_BRAND: "{{galaxy_brand}}"
+   NONUSE: "{{galaxy_nonuse}}"
    GALAXY_LOGGING: "full"
    DOCKER_PARENT: "True"
    GALAXY_CONFIG_HOST: "0.0.0.0"
@@ -44,7 +48,6 @@ galaxy_docker_env_vars:
 
 # ENV variables for the Docker Galaxy in case of using slurm
 slurm_galaxy_docker_env_vars:
-   NONUSE: "reports,slurmctld,slurmd,nodejs,condor,proftp,flower"
    GALAXY_DESTINATIONS_DEFAULT: "slurm_cluster"
    GALAXY_RUNNERS_ENABLE_SLURM: "True"
 
