@@ -100,6 +100,9 @@
       networks:
           frontend:
               driver: bridge
+              driver_opts:
+                  com.docker.network.driver.mtu: 1376
+
     dest: /opt/galaxy/docker-compose.yaml
     mode: '644'
 
