@@ -23,7 +23,7 @@ galaxy_slurm_server_name: slurmserver
 # Galaxy export dir
 galaxy_export_dir: /mnt/export
 # Version of the Galaxy portal docker image to use
-galaxy_image_version: "24.2"
+galaxy_image_version: "24.1"
 # Service to disable in the Galaxy portal
 galaxy_nonuse: "reports,slurmctld,slurmd,nodejs,condor,proftp,flower"
 # Brand of the Galaxy portal
