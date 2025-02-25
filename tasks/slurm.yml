@@ -39,7 +39,7 @@
   when: ansible_os_family == "Debian"
 
 - name: Copy Galaxy pip Requirements
-  #get_url: url=https://raw.githubusercontent.com/galaxyproject/galaxy/refs/tags/v24.1/lib/galaxy/dependencies/pinned-requirements.txt dest=/tmp/requirements.txt
+  #get_url: url=https://raw.githubusercontent.com/galaxyproject/galaxy/refs/tags/v24.2.0/lib/galaxy/dependencies/pinned-requirements.txt dest=/tmp/requirements.txt
   copy: src=requirements.txt dest=/tmp/requirements.txt
 
 - name: Pin setuptools version to 69.5.1
