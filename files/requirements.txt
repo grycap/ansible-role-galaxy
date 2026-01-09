@@ -4,7 +4,7 @@ adal==1.2.7
 aiobotocore==2.24.2
 aiofiles==24.1.0
 aiohappyeyeballs==2.6.1
-aiohttp==3.12.15
+aiohttp==3.13.3
 aioitertools==0.12.0
 aiosignal==1.4.0
 alembic==1.16.5
@@ -67,7 +67,8 @@ email-validator==2.3.0
 et-xmlfile==2.0.0
 exceptiongroup==1.3.0 ; python_full_version < '3.11'
 fastapi==0.118.0
-filelock==3.19.1
+filelock==3.19.1 ; python_full_version < '3.10'
+filelock==3.20.2 ; python_full_version >= '3.10'
 fissix==24.4.24
 frozenlist==1.7.0
 fs==2.4.16
@@ -163,7 +164,7 @@ pygments==2.19.2
 pyjwt==2.10.1
 pykwalify==1.8.0
 pylibmagic==0.5.0
-pynacl==1.6.0
+pynacl==1.6.2
 pyparsing==3.2.5
 pypng==0.20220715.0
 pyreadline3==3.5.4 ; sys_platform == 'win32'
@@ -204,7 +205,8 @@ sortedcontainers==2.4.0
 spython==0.3.14
 sqlalchemy==2.0.43
 sqlparse==0.5.3
-starlette==0.48.0
+starlette==0.49.3 ; python_full_version < '3.10'
+starlette==0.50.0 ; python_full_version >= '3.10'
 starlette-context==0.4.0
 supervisor==4.3.0
 svgwrite==1.4.3
@@ -225,7 +227,7 @@ tzdata==2025.2
 tzlocal==5.3.1
 ubiquerg==0.8.1
 urllib3==1.26.20 ; python_full_version < '3.10'
-urllib3==2.5.0 ; python_full_version >= '3.10'
+urllib3==2.6.3 ; python_full_version >= '3.10'
 uvicorn==0.37.0
 uvloop==0.21.0
 vine==5.1.0
