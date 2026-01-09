@@ -53,3 +53,9 @@
     requirements: /tmp/requirements.txt
     virtualenv: "{{galaxy_export_dir}}/galaxy_venv"
     extra_args: --extra-index-url https://wheels.galaxyproject.org/simple --only-binary all
+
+- name: Link galaxy env dir
+  file:
+    path: /home/galaxy/venv
+    src: "{{galaxy_export_dir}}/galaxy_venv"
+    state: link
