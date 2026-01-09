@@ -1,10 +1,4 @@
 ---
-- name: Link export dir
-  file: path=/export src={{galaxy_export_dir}} state=link
-
-- name: Link galaxy_env dir
-  file: path=/galaxy_venv src={{galaxy_export_dir}}/galaxy_venv state=link
-
 - name: install 2to3 in Deb systems
   apt: name=2to3 update_cache=yes cache_valid_time=3600
   when: ansible_os_family == "Debian"
@@ -42,6 +36,12 @@
 
 - name: Link galaxy-central dir
   file: path=/galaxy-central src={{galaxy_export_dir}}/galaxy-central state=link
+
+- name: Link export dir
+  file: path=/export src={{galaxy_export_dir}} state=link
+
+- name: Link galaxy_env dir
+  file: path=/galaxy_venv src={{galaxy_export_dir}}/galaxy_venv state=link
 
 - name: Ensure a locale exists
   locale_gen:
