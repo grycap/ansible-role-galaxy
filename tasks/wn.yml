@@ -43,6 +43,12 @@
 - name: Link galaxy-central dir
   file: path=/galaxy-central src={{galaxy_export_dir}}/galaxy-central state=link
 
+- name: Link galaxy env dir
+  file:
+    path: /home/galaxy/venv
+    src: "{{galaxy_export_dir}}/galaxy_venv"
+    state: link
+
 - name: Ensure a locale exists
   locale_gen:
     name: en_US.UTF-8
