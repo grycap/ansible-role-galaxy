@@ -146,7 +146,7 @@ pillow==11.3.0
 prompt-toolkit==3.0.52
 propcache==0.3.2
 proto-plus==1.26.1
-protobuf==6.32.1
+protobuf==6.33.5
 prov==1.5.1
 psutil==7.1.0
 pulsar-galaxy-lib==0.15.11
