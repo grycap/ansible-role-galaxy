@@ -1,4 +1,5 @@
 # https://raw.githubusercontent.com/galaxyproject/galaxy/refs/tags/v26.0.0/lib/galaxy/dependencies/pinned-requirements.txt
+galaxy-app==26.0.0
 a2wsgi==1.10.10
 adal==1.2.7
 ag-ui-protocol==0.1.10
